@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM: CLASS XII MONARCH TRACKER</title>
+    <title>SYSTEM HUD // MONARCH OS v3.0</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Orbitron & Rajdhani for Solo Leveling System UI feel -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Orbitron, Rajdhani, Share Tech Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -19,16 +19,17 @@
                     fontFamily: {
                         orbitron: ['Orbitron', 'sans-serif'],
                         rajdhani: ['Rajdhani', 'sans-serif'],
-                        inter: ['Inter', 'sans-serif'],
+                        mono: ['Share Tech Mono', 'monospace'],
                     },
                     colors: {
-                        sysBg: '#050811',
-                        sysCard: '#0a1124',
-                        sysBorder: '#00e5ff',
+                        sysVoid: '#03060c',
+                        sysPanel: '#071120',
                         sysCyan: '#00f0ff',
+                        sysBlue: '#0077ff',
                         sysPurple: '#9d4edd',
                         sysGold: '#ffd700',
-                        sysDanger: '#ff2a5f'
+                        sysCrimson: '#ff1e56',
+                        sysEmerald: '#00ff9d'
                     }
                 }
             }
@@ -36,75 +37,155 @@
     </script>
 
     <style>
+        * {
+            user-select: none;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #050811;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.07) 0%, transparent 35%),
-                radial-gradient(circle at 85% 80%, rgba(157, 78, 221, 0.08) 0%, transparent 40%),
-                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-            color: #e2f1ff;
+            background-color: #03060c;
+            color: #d8f3ff;
             font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
         }
 
-        /* Solo Leveling Glowing System Box */
-        .system-box {
-            background: rgba(10, 17, 36, 0.88);
-            border: 1px solid rgba(0, 240, 255, 0.35);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.12), inset 0 0 15px rgba(0, 240, 255, 0.05);
-            backdrop-filter: blur(10px);
+        /* Holographic Scanline & Perspective Grid */
+        .holo-bg {
+            background-image: 
+                radial-gradient(circle at 50% 45%, rgba(0, 240, 255, 0.09) 0%, rgba(157, 78, 221, 0.05) 45%, transparent 80%),
+                linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
         }
 
-        .system-box-purple {
-            background: rgba(15, 10, 34, 0.88);
-            border: 1px solid rgba(157, 78, 221, 0.45);
-            box-shadow: 0 0 18px rgba(157, 78, 221, 0.18), inset 0 0 15px rgba(157, 78, 221, 0.06);
-            backdrop-filter: blur(10px);
+        .scanlines::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 240, 255, 0.025) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 40;
         }
 
-        .glow-text-cyan {
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.7), 0 0 20px rgba(0, 240, 255, 0.4);
+        /* Sung Jin-Woo System Window Frame */
+        .sys-window {
+            background: linear-gradient(160deg, rgba(8, 21, 42, 0.92) 0%, rgba(4, 10, 22, 0.96) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.45);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.14), inset 0 0 25px rgba(0, 240, 255, 0.06);
+            backdrop-filter: blur(12px);
+            position: relative;
         }
 
-        .glow-text-purple {
-            text-shadow: 0 0 10px rgba(157, 78, 221, 0.8), 0 0 20px rgba(157, 78, 221, 0.4);
+        .sys-window-purple {
+            background: linear-gradient(160deg, rgba(20, 10, 38, 0.92) 0%, rgba(7, 4, 18, 0.96) 100%);
+            border: 1px solid rgba(157, 78, 221, 0.55);
+            box-shadow: 0 0 25px rgba(157, 78, 221, 0.2), inset 0 0 25px rgba(157, 78, 221, 0.08);
+            backdrop-filter: blur(12px);
+            position: relative;
         }
 
-        .glow-text-gold {
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        /* Corner Hologram Brackets */
+        .holo-corners::before,
+        .holo-corners::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: #00f0ff;
+            pointer-events: none;
+        }
+        .holo-corners::before {
+            top: -1px;
+            left: -1px;
+            border-top: 2px solid #00f0ff;
+            border-left: 2px solid #00f0ff;
+        }
+        .holo-corners::after {
+            bottom: -1px;
+            right: -1px;
+            border-bottom: 2px solid #00f0ff;
+            border-right: 2px solid #00f0ff;
         }
 
-        /* Custom Progress Bar Glow */
-        .progress-glow-cyan {
-            box-shadow: 0 0 12px #00f0ff, 0 0 4px #ffffff;
+        /* Glowing Typography */
+        .glow-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.8), 0 0 20px rgba(0, 240, 255, 0.4);
         }
-        .progress-glow-purple {
-            box-shadow: 0 0 12px #9d4edd, 0 0 4px #e0aaff;
+        .glow-purple {
+            text-shadow: 0 0 10px rgba(157, 78, 221, 0.85), 0 0 22px rgba(157, 78, 221, 0.5);
+        }
+        .glow-gold {
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+        .glow-crimson {
+            text-shadow: 0 0 12px rgba(255, 30, 86, 0.9);
         }
 
-        /* Custom Checkboxes */
-        .sys-checkbox {
+        /* System Window Pop-In Animation */
+        @keyframes holoOpen {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(8px);
+                filter: brightness(2) blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: brightness(1) blur(0);
+            }
+        }
+        .animate-holo {
+            animation: holoOpen 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Screen Shake on Boss Clear */
+        @keyframes raidShake {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-4px, 3px); }
+            40% { transform: translate(4px, -3px); }
+            60% { transform: translate(-3px, -2px); }
+            80% { transform: translate(3px, 2px); }
+        }
+        .shake-screen {
+            animation: raidShake 0.35s ease-in-out;
+        }
+
+        /* Floating XP Text Animation */
+        @keyframes floatUpFade {
+            0% { opacity: 1; transform: translateY(0) scale(0.9); }
+            100% { opacity: 0; transform: translateY(-45px) scale(1.15); }
+        }
+        .floating-xp {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: floatUpFade 0.85s ease-out forwards;
+        }
+
+        /* Custom System Checkbox */
+        .sys-check {
             appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #00f0ff;
-            border-radius: 4px;
-            background-color: rgba(5, 8, 17, 0.9);
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #00f0ff;
+            background: rgba(3, 6, 12, 0.85);
             cursor: pointer;
             position: relative;
-            transition: all 0.2s ease;
+            transition: all 0.18s ease;
             flex-shrink: 0;
         }
-        .sys-checkbox:checked {
-            background-color: #00f0ff;
+        .sys-check:checked {
+            background: #00f0ff;
             box-shadow: 0 0 10px #00f0ff;
         }
-        .sys-checkbox:checked::after {
+        .sys-check:checked::after {
             content: '✔';
-            font-size: 13px;
-            color: #050811;
+            font-size: 12px;
+            color: #03060c;
             font-weight: 900;
             position: absolute;
             top: 50%;
@@ -112,1878 +193,453 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Scrollbar styling */
+        /* Custom Scrollbar inside Hologram Windows */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #050811;
+            background: rgba(3, 6, 12, 0.6);
         }
         ::-webkit-scrollbar-thumb {
-            background: #0099ad;
-            border-radius: 3px;
+            background: rgba(0, 240, 255, 0.45);
+            border-radius: 2px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: #00f0ff;
         }
-
-        @keyframes pulseBorder {
-            0%, 100% { border-color: rgba(0, 240, 255, 0.4); }
-            50% { border-color: rgba(0, 240, 255, 0.95); }
-        }
-        .animate-sys-border {
-            animation: pulseBorder 3s infinite ease-in-out;
-        }
     </style>
 </head>
-<body class="min-h-screen pb-16 select-none">
+<body class="holo-bg scanlines flex flex-col justify-between">
 
-    <!-- SYSTEM NOTIFICATION TOAST -->
-    <div id="systemToast" class="fixed top-5 right-5 z-50 transform translate-x-full opacity-0 transition-all duration-300 max-w-sm w-full pointer-events-none">
-        <div class="system-box p-4 rounded-lg border-l-4 border-l-sysCyan flex items-start space-x-3">
-            <div class="text-sysCyan text-2xl pt-0.5">
-                <i class="fa-solid fa-circle-Exclamation animate-pulse"></i>
+    <!-- =====================================================
+         1. AWAKENING OVERLAY (SUNG JIN-WOO BOOT SEQUENCE)
+    ====================================================== -->
+    <div id="awakeningOverlay" class="fixed inset-0 z-50 bg-sysVoid/95 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="sys-window holo-corners max-w-lg w-full p-6 sm:p-8 text-center animate-holo border-2 border-sysCyan">
+            <div class="w-14 h-14 mx-auto rounded-full bg-cyan-500/10 border border-sysCyan flex items-center justify-center text-sysCyan text-2xl mb-4 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                <i class="fa-solid fa-exclamation"></i>
             </div>
-            <div class="flex-1">
-                <div class="text-xs font-orbitron tracking-widest text-sysCyan uppercase">System Notification</div>
-                <div id="toastTitle" class="text-base font-bold text-white mt-0.5">QUEST COMPLETED</div>
-                <div id="toastMessage" class="text-sm text-cyan-200 font-inter">+20 XP | +10 Gold</div>
+            <div class="text-xs font-orbitron tracking-[0.3em] text-sysCyan uppercase">System Notification</div>
+            <h1 class="text-2xl sm:text-3xl font-orbitron font-black text-white glow-cyan mt-2">
+                SECRET QUEST: AWAKENING
+            </h1>
+            <p class="text-sm sm:text-base text-cyan-100/80 mt-3 leading-relaxed">
+                You have qualified to become a <span class="text-sysCyan font-bold">Player</span> in the Class XII Monarch System. Will you accept the System's authority and conquer all Dungeons?
+            </p>
+            <div class="mt-5 p-3 bg-slate-950/90 border border-cyan-500/30 text-left font-mono text-xs text-cyan-300 space-y-1">
+                <div>> INITIALIZING NEURAL HUD INTERFACE... [OK]</div>
+                <div>> SYNCING NCERT PCM & SIDE DUNGEONS... [OK]</div>
+                <div>> DETERMINISTIC XP & LEVEL ENGINE... [FIXED]</div>
+            </div>
+            <button onclick="acceptAwakening()" class="mt-6 w-full py-3 bg-sysCyan hover:bg-cyan-300 text-slate-950 font-orbitron font-black tracking-widest uppercase text-sm transition-all shadow-[0_0_25px_rgba(0,240,255,0.5)]">
+                [ ACCEPT AWAKENING ]
+            </button>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         2. LEVEL UP / ARISE CINEMATIC MODAL
+    ====================================================== -->
+    <div id="levelUpModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="sys-window-purple holo-corners max-w-md w-full p-6 text-center animate-holo border-2 border-sysPurple">
+            <div class="text-xs font-orbitron tracking-[0.25em] text-purple-300 uppercase">System Alert</div>
+            <h2 id="modalAlertTitle" class="text-3xl font-orbitron font-black text-white glow-purple mt-1">LEVEL UP!</h2>
+            <p id="modalAlertSub" class="text-sm text-purple-200 mt-2">Your status and combat capabilities have risen.</p>
+            <div id="modalAlertBox" class="my-4 p-3 bg-slate-950/80 border border-purple-500/40 font-mono text-xs text-purple-200">
+                +3 Ability Points (AP) Ready for Allocation
+            </div>
+            <button onclick="closeLevelUpModal()" class="px-8 py-2.5 bg-sysPurple hover:bg-purple-500 text-white font-orbitron font-bold text-xs tracking-widest uppercase shadow-[0_0_20px_rgba(157,78,221,0.6)]">
+                CONFIRM
+            </button>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         3. SYSTEM NOTIFICATION TOAST (TOP RIGHT)
+    ====================================================== -->
+    <div id="sysToast" class="fixed top-16 right-5 z-40 transform translate-x-[120%] opacity-0 transition-all duration-300 max-w-xs w-full pointer-events-none">
+        <div class="sys-window holo-corners p-3.5 border-l-4 border-l-sysCyan flex items-center space-x-3">
+            <i class="fa-solid fa-bolt text-sysCyan text-xl animate-pulse"></i>
+            <div>
+                <div id="sysToastTitle" class="text-xs font-orbitron font-bold text-white uppercase tracking-wider">SYSTEM LOG</div>
+                <div id="sysToastMsg" class="text-xs text-cyan-300 font-mono mt-0.5">+15 XP | +10 G</div>
             </div>
         </div>
     </div>
 
-    <!-- TOP HEADER & PLAYER STATUS WINDOW -->
-    <header class="max-w-7xl mx-auto px-3 sm:px-6 pt-4 pb-2">
-        <div class="system-box rounded-xl p-4 sm:p-6 animate-sys-border relative overflow-hidden">
-            <!-- Decorative corner accents -->
-            <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-sysCyan"></div>
-            <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-sysCyan"></div>
-            <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-sysCyan"></div>
-            <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-sysCyan"></div>
-
-            <!-- System Header Title -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cyan-500/30 pb-4">
-                <div>
-                    <div class="flex items-center space-x-2">
-                        <span class="px-2 py-0.5 text-xs font-orbitron bg-cyan-500/20 border border-sysCyan text-sysCyan rounded uppercase tracking-wider">System Online</span>
-                        <span id="streakBadge" class="px-2.5 py-0.5 text-xs font-orbitron bg-orange-500/20 border border-orange-400 text-orange-300 rounded uppercase tracking-wider">
-                            <i class="fa-solid fa-fire mr-1 text-orange-400"></i><span id="streakCount">0</span> Day Streak
-                        </span>
-                    </div>
-                    <h1 class="text-2xl sm:text-4xl font-orbitron font-black tracking-wider text-white glow-text-cyan mt-1">
-                        SHADOW MONARCH: CLASS XII
-                    </h1>
-                    <p class="text-cyan-300/80 text-sm sm:text-base tracking-wide">
-                        "Arise and conquer the PCM Boss Raids & Side Dungeons."
-                    </p>
+    <!-- =====================================================
+         4. TOP COMPACT HUD BAR (ALWAYS VISIBLE)
+    ====================================================== -->
+    <header class="h-14 px-3 sm:px-6 bg-slate-950/90 border-b border-cyan-500/30 flex items-center justify-between z-30 shrink-0">
+        <!-- Left: System Identity & Active Rank -->
+        <div class="flex items-center space-x-3">
+            <div id="hudRankBadge" class="w-9 h-9 rounded bg-gradient-to-br from-cyan-500 to-purple-700 flex items-center justify-center font-orbitron font-black text-lg text-white border border-cyan-300/60 shadow-[0_0_12px_rgba(0,240,255,0.4)]">
+                E
+            </div>
+            <div>
+                <div class="flex items-center space-x-2">
+                    <span class="font-orbitron font-black text-sm sm:text-base tracking-wider text-white glow-cyan">PLAYER: MONARCH XII</span>
+                    <span id="hudStreak" class="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-orange-500/20 border border-orange-400 text-orange-300">
+                        🔥 1D STREAK
+                    </span>
                 </div>
+                <div id="hudTitle" class="text-[11px] font-mono text-cyan-400">Title: E-Rank Novice Hunter</div>
+            </div>
+        </div>
 
-                <!-- Player Level, Rank & Gold Coins -->
-                <div class="flex flex-wrap items-center gap-3 sm:gap-4 bg-slate-950/80 p-3 rounded-lg border border-cyan-500/30">
-                    <!-- Rank Badge -->
-                    <div class="flex items-center space-x-3 pr-3 border-r border-cyan-500/20">
-                        <div id="rankBadge" class="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-purple-700 flex items-center justify-center font-orbitron font-black text-2xl text-white shadow-lg border border-white/30">
-                            E
-                        </div>
-                        <div>
-                            <div class="text-xs text-cyan-400 uppercase font-orbitron">Hunter Rank</div>
-                            <div id="playerTitle" class="text-sm sm:text-base font-bold text-white">E-Rank Novice</div>
-                        </div>
-                    </div>
-
-                    <!-- Level & XP -->
-                    <div class="pr-3 border-r border-cyan-500/20">
-                        <div class="flex items-baseline space-x-2">
-                            <span class="text-xs text-cyan-400 font-orbitron">LVL</span>
-                            <span id="playerLevel" class="text-2xl font-orbitron font-bold text-sysCyan glow-text-cyan">1</span>
-                        </div>
-                        <div class="w-24 bg-slate-800 h-2 rounded-full overflow-hidden mt-1">
-                            <div id="xpBar" class="bg-gradient-to-r from-sysCyan to-sysPurple h-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
-                        <div id="xpText" class="text-[11px] text-cyan-300/70 mt-0.5">0 / 100 XP</div>
-                    </div>
-
-                    <!-- Gold Coins -->
-                    <div class="flex items-center space-x-2.5 pl-1">
-                        <div class="w-9 h-9 rounded-full bg-yellow-500/20 border border-yellow-400 flex items-center justify-center text-sysGold">
-                            <i class="fa-solid fa-coins"></i>
-                        </div>
-                        <div>
-                            <div class="text-xs text-yellow-300/80 uppercase font-orbitron">Gold</div>
-                            <div id="playerGold" class="text-xl font-orbitron font-bold text-sysGold glow-text-gold">100</div>
-                        </div>
-                    </div>
+        <!-- Center: Deterministic Level & XP Bar -->
+        <div class="flex items-center space-x-4 flex-1 max-w-md mx-4">
+            <div class="text-right shrink-0">
+                <div class="text-[10px] font-orbitron text-cyan-400 uppercase">Level</div>
+                <div id="hudLevel" class="text-xl font-orbitron font-black text-sysCyan leading-none">1</div>
+            </div>
+            <div class="flex-1">
+                <div class="flex justify-between text-[11px] font-mono mb-1">
+                    <span class="text-cyan-300">EXP GAUGE</span>
+                    <span id="hudXpText" class="text-white">0 / 100 XP (Total: 0)</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-900 border border-cyan-500/40 p-0.5 overflow-hidden">
+                    <div id="hudXpBar" class="h-full bg-gradient-to-r from-sysCyan via-blue-400 to-sysPurple transition-all duration-300 shadow-[0_0_10px_#00f0ff]" style="width: 0%"></div>
                 </div>
             </div>
+        </div>
 
-            <!-- MAIN OVERALL SYLLABUS PROGRESS BAR (0% to 100%) -->
-            <div class="mt-4">
-                <div class="flex justify-between items-end mb-1.5">
-                    <div>
-                        <span class="text-xs sm:text-sm font-orbitron uppercase tracking-wider text-sysCyan flex items-center">
-                            <i class="fa-solid fa-skull-crossbones mr-2"></i>Overall Class 12 World Completion
-                        </span>
-                        <span id="completedStatsText" class="text-xs text-slate-400 font-inter">0 / 0 Total Quests & Subtopics Cleared</span>
-                    </div>
-                    <div class="text-right">
-                        <span id="mainProgressPercent" class="text-2xl sm:text-3xl font-orbitron font-black text-sysCyan glow-text-cyan">0.0%</span>
-                    </div>
-                </div>
-                <div class="w-full h-5 bg-slate-950 rounded-lg p-0.5 border border-cyan-500/40 overflow-hidden relative">
-                    <div id="mainProgressBar" class="h-full rounded bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 progress-glow-cyan transition-all duration-500 relative" style="width: 0%"></div>
-                </div>
-
-                <!-- Subject Mini Breakdown Bars -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mt-3 pt-2">
-                    <div class="bg-slate-950/70 p-2 rounded border border-cyan-500/20">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-cyan-300">⚛️ Physics</span>
-                            <span id="miniPct-physics" class="font-orbitron text-white">0%</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
-                            <div id="miniBar-physics" class="bg-cyan-400 h-full transition-all duration-300" style="width:0%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-950/70 p-2 rounded border border-cyan-500/20">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-emerald-300">🧪 Chemistry</span>
-                            <span id="miniPct-chemistry" class="font-orbitron text-white">0%</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
-                            <div id="miniBar-chemistry" class="bg-emerald-400 h-full transition-all duration-300" style="width:0%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-950/70 p-2 rounded border border-cyan-500/20">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-purple-300">📐 Maths</span>
-                            <span id="miniPct-maths" class="font-orbitron text-white">0%</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
-                            <div id="miniBar-maths" class="bg-purple-400 h-full transition-all duration-300" style="width:0%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-950/70 p-2 rounded border border-cyan-500/20">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-amber-300">📖 English</span>
-                            <span id="miniPct-english" class="font-orbitron text-white">0%</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
-                            <div id="miniBar-english" class="bg-amber-400 h-full transition-all duration-300" style="width:0%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-950/70 p-2 rounded border border-cyan-500/20">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-pink-300">🤖 AI (843)</span>
-                            <span id="miniPct-ai" class="font-orbitron text-white">0%</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
-                            <div id="miniBar-ai" class="bg-pink-400 h-full transition-all duration-300" style="width:0%"></div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-950/70 p-2 rounded border border-cyan-500/20">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-lime-300">🏃‍♂️ Physical Ed</span>
-                            <span id="miniPct-pe" class="font-orbitron text-white">0%</span>
-                        </div>
-                        <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden">
-                            <div id="miniBar-pe" class="bg-lime-400 h-full transition-all duration-300" style="width:0%"></div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Right: Gold Balance, World % & Sound Toggle -->
+        <div class="flex items-center space-x-3">
+            <div class="hidden md:flex flex-col items-end pr-2 border-r border-cyan-500/20">
+                <span class="text-[10px] font-orbitron text-slate-400 uppercase">World Clear</span>
+                <span id="hudWorldPct" class="text-sm font-orbitron font-bold text-sysEmerald">0.0%</span>
             </div>
+
+            <div class="flex items-center space-x-1.5 bg-slate-900/90 border border-yellow-400/40 px-2.5 py-1">
+                <i class="fa-solid fa-coins text-sysGold text-xs"></i>
+                <span id="hudGold" class="font-orbitron font-bold text-sm text-sysGold">100</span>
+            </div>
+
+            <button onclick="toggleSound()" id="soundToggleBtn" class="w-8 h-8 border border-cyan-500/40 bg-slate-900 text-sysCyan hover:bg-cyan-500/20 flex items-center justify-center text-xs" title="Toggle System SFX">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
         </div>
     </header>
 
-    <!-- NAVIGATION TABS -->
-    <nav class="max-w-7xl mx-auto px-3 sm:px-6 my-3">
-        <div class="flex flex-wrap gap-2 bg-slate-950/90 p-2 rounded-xl border border-cyan-500/30">
-            <button onclick="switchMainTab('pcm')" id="tabBtn-pcm" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-lg font-orbitron text-xs sm:text-sm font-bold tracking-wider uppercase transition-all bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30">
-                <i class="fa-solid fa-dragon mr-1.5"></i>PCM Boss Raids
-            </button>
-            <button onclick="switchMainTab('side')" id="tabBtn-side" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-lg font-orbitron text-xs sm:text-sm font-bold tracking-wider uppercase transition-all text-cyan-300 hover:bg-cyan-500/10">
-                <i class="fa-solid fa-bolt mr-1.5"></i>Medium & Small Fries
-            </button>
-            <button onclick="switchMainTab('daily')" id="tabBtn-daily" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-lg font-orbitron text-xs sm:text-sm font-bold tracking-wider uppercase transition-all text-cyan-300 hover:bg-cyan-500/10">
-                <i class="fa-solid fa-dumbbell mr-1.5"></i>Daily Non-Negotiables
-            </button>
-            <button onclick="switchMainTab('timer')" id="tabBtn-timer" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-lg font-orbitron text-xs sm:text-sm font-bold tracking-wider uppercase transition-all text-cyan-300 hover:bg-cyan-500/10">
-                <i class="fa-solid fa-hourglass-half mr-1.5"></i>Lock-In & MP3 BGM
-            </button>
-            <button onclick="switchMainTab('store')" id="tabBtn-store" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-lg font-orbitron text-xs sm:text-sm font-bold tracking-wider uppercase transition-all text-cyan-300 hover:bg-cyan-500/10">
-                <i class="fa-solid fa-store mr-1.5"></i>Hunter Store
-            </button>
-        </div>
-    </nav>
+    <!-- =====================================================
+         5. MAIN HOLOGRAPHIC WORKSPACE (1 WINDOW AT A TIME)
+    ====================================================== -->
+    <main id="mainViewport" class="flex-1 flex overflow-hidden relative p-2 sm:p-4 gap-3">
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-7xl mx-auto px-3 sm:px-6">
-
-        <!-- ==========================================
-             TAB 1: PCM BOSS RAIDS (DETAILED SUBTOPICS)
-        =========================================== -->
-        <section id="tabContent-pcm" class="space-y-4">
-            <!-- Subject Selector Sub-tabs & Search -->
-            <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 system-box p-3 rounded-xl">
-                <div class="flex gap-2">
-                    <button onclick="switchPCMSubject('physics')" id="pcmBtn-physics" class="px-4 py-2 rounded-lg font-orbitron text-xs sm:text-sm font-bold bg-cyan-500 text-slate-950 transition-all">
-                        ⚛️ PHYSICS (14 Ch)
-                    </button>
-                    <button onclick="switchPCMSubject('chemistry')" id="pcmBtn-chemistry" class="px-4 py-2 rounded-lg font-orbitron text-xs sm:text-sm font-bold bg-slate-900 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all">
-                        🧪 CHEMISTRY (10 Units)
-                    </button>
-                    <button onclick="switchPCMSubject('maths')" id="pcmBtn-maths" class="px-4 py-2 rounded-lg font-orbitron text-xs sm:text-sm font-bold bg-slate-900 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all">
-                        📐 MATHS (13 Ch)
-                    </button>
+        <!-- LEFT HOLOGRAPHIC COMMAND DOCK (DESKTOP) -->
+        <aside class="hidden md:flex flex-col justify-between w-56 sys-window holo-corners p-3 shrink-0 z-20">
+            <div class="space-y-1.5">
+                <div class="text-[10px] font-orbitron tracking-[0.2em] text-cyan-400/80 uppercase px-2 py-1 border-b border-cyan-500/20 mb-2">
+                    System Windows
                 </div>
 
-                <div class="flex items-center gap-2">
-                    <div class="relative flex-1 sm:w-64">
-                        <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-cyan-400 text-xs"></i>
-                        <input type="text" id="pcmSearchInput" oninput="renderPCMChapters()" placeholder="Search chapter or 1.1 subtopic..." class="w-full bg-slate-950 border border-cyan-500/40 rounded-lg pl-8 pr-3 py-1.5 text-sm text-white focus:outline-none focus:border-sysCyan font-inter">
-                    </div>
-                    <button onclick="expandCollapseAllPCM(true)" class="px-2.5 py-1.5 bg-slate-900 border border-cyan-500/30 rounded text-xs text-cyan-300 hover:bg-cyan-500/20" title="Expand All">
-                        <i class="fa-solid fa-angles-down"></i>
-                    </button>
-                    <button onclick="expandCollapseAllPCM(false)" class="px-2.5 py-1.5 bg-slate-900 border border-cyan-500/30 rounded text-xs text-cyan-300 hover:bg-cyan-500/20" title="Collapse All">
-                        <i class="fa-solid fa-angles-up"></i>
-                    </button>
+                <button onclick="openSystemWindow('status')" id="navBtn-status" class="w-full text-left px-3 py-2.5 font-orbitron text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-between bg-sysCyan text-slate-950 shadow-[0_0_15px_rgba(0,240,255,0.4)]">
+                    <span><i class="fa-solid fa-id-card-clip w-5"></i>[STATUS]</span>
+                    <span id="apBadgeSide" class="hidden px-1.5 py-0.2 bg-red-500 text-white text-[10px] rounded animate-pulse">AP!</span>
+                </button>
+
+                <button onclick="openSystemWindow('dungeons')" id="navBtn-dungeons" class="w-full text-left px-3 py-2.5 font-orbitron text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-between text-cyan-300 hover:bg-cyan-500/10 border border-transparent">
+                    <span><i class="fa-solid fa-dungeon w-5"></i>[DUNGEON GATES]</span>
+                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                </button>
+
+                <button onclick="openSystemWindow('daily')" id="navBtn-daily" class="w-full text-left px-3 py-2.5 font-orbitron text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-between text-cyan-300 hover:bg-cyan-500/10 border border-transparent">
+                    <span><i class="fa-solid fa-skull w-5"></i>[DAILY QUEST]</span>
+                    <span id="dailyStatusDot" class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                </button>
+
+                <button onclick="openSystemWindow('instance')" id="navBtn-instance" class="w-full text-left px-3 py-2.5 font-orbitron text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-between text-cyan-300 hover:bg-cyan-500/10 border border-transparent">
+                    <span><i class="fa-solid fa-stopwatch w-5"></i>[INSTANCE RAID]</span>
+                    <span id="miniTimerIndicator" class="text-[10px] font-mono text-purple-300">IDLE</span>
+                </button>
+
+                <button onclick="openSystemWindow('shop')" id="navBtn-shop" class="w-full text-left px-3 py-2.5 font-orbitron text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-between text-cyan-300 hover:bg-cyan-500/10 border border-transparent">
+                    <span><i class="fa-solid fa-cart-shopping w-5"></i>[SYSTEM SHOP]</span>
+                    <span id="invCountSide" class="text-[10px] font-mono text-yellow-400">0</span>
+                </button>
+
+                <button onclick="openSystemWindow('shadows')" id="navBtn-shadows" class="w-full text-left px-3 py-2.5 font-orbitron text-xs font-bold tracking-wider uppercase transition-all flex items-center justify-between text-purple-300 hover:bg-purple-500/10 border border-transparent">
+                    <span><i class="fa-solid fa-ghost w-5"></i>[SHADOW ARMY]</span>
+                    <span id="shadowCountSide" class="text-[10px] font-mono text-purple-400">0/15</span>
+                </button>
+            </div>
+
+            <!-- System Diagnostics Footer -->
+            <div class="p-2.5 bg-slate-950/90 border border-cyan-500/20 font-mono text-[11px] space-y-1">
+                <div class="flex justify-between text-cyan-400">
+                    <span>COMBAT POWER</span>
+                    <span id="sideCombatPower" class="font-bold text-white">120</span>
+                </div>
+                <div class="flex justify-between text-purple-300">
+                    <span>SHADOW BONUS</span>
+                    <span id="sideShadowBonus">+0%</span>
+                </div>
+                <div class="text-[10px] text-slate-500 pt-1 border-t border-slate-800">
+                    SYNC: DETERMINISTIC v3
                 </div>
             </div>
+        </aside>
 
-            <!-- Active PCM Subject Banner -->
-            <div class="system-box p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                <div>
-                    <div class="text-xs font-orbitron text-cyan-400 uppercase">S-Rank Dungeon Raid</div>
-                    <h2 id="activePCMTitle" class="text-xl sm:text-2xl font-orbitron font-bold text-white">PHYSICS (NCERT PART I & II)</h2>
-                    <p id="activePCMSubtitle" class="text-xs sm:text-sm text-slate-300 font-inter">Check off individual subtopics (1.1, 1.2...) or complete an entire chapter at once. (+15 XP, +10 Gold per subtopic)</p>
-                </div>
-                <div class="w-full sm:w-64">
-                    <div class="flex justify-between text-xs font-orbitron mb-1">
-                        <span class="text-cyan-300">Subject Mastery</span>
-                        <span id="activePCMPct" class="text-sysCyan font-bold">0%</span>
-                    </div>
-                    <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-cyan-500/40">
-                        <div id="activePCMBar" class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 transition-all duration-300" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PCM Chapters Container -->
-            <div id="pcmChaptersList" class="grid grid-cols-1 gap-4">
-                <!-- Populated dynamically via JS -->
-            </div>
-        </section>
-
-        <!-- ==========================================
-             TAB 2: MEDIUM & SMALL FRIES (ONE-GO CHAPTERS)
-        =========================================== -->
-        <section id="tabContent-side" class="hidden space-y-6">
-            <div class="system-box-purple p-4 rounded-xl">
-                <h2 class="text-xl sm:text-2xl font-orbitron font-bold text-white glow-text-purple">
-                    <i class="fa-solid fa-khanda mr-2 text-purple-400"></i>MEDIUM & SMALL FRY DUNGEONS (ONE-SHOT CLEAR)
-                </h2>
-                <p class="text-sm text-purple-200/80 font-inter mt-1">
-                    English is a Medium-Rank Dungeon (Flamingo & Vistas). Artificial Intelligence (843) and Physical Education are Small Fries that can be finished in one go per chapter! (+40 XP & +25 Gold per chapter cleared)
-                </p>
-            </div>
-
-            <div id="sideSubjectsContainer" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Populated dynamically via JS -->
-            </div>
-        </section>
-
-        <!-- ==========================================
-             TAB 3: DAILY NON-NEGOTIABLES (PENALTY PREVENTION)
-        =========================================== -->
-        <section id="tabContent-daily" class="hidden space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Left Column: 3L Hydration Monarch Tank -->
-                <div class="system-box p-5 rounded-xl flex flex-col justify-between">
+        <!-- =================================================
+             WINDOW 1: [STATUS] (SUNG JIN-WOO ATTRIBUTES WINDOW)
+        ================================================== -->
+        <section id="win-status" class="flex-1 sys-window holo-corners p-4 sm:p-6 overflow-y-auto animate-holo flex flex-col justify-between gap-4">
+            <div>
+                <!-- Window Header -->
+                <div class="flex items-center justify-between border-b border-cyan-500/40 pb-3">
                     <div>
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="text-xs font-orbitron text-cyan-400 uppercase tracking-wider">Elixir of Life</span>
-                                <h3 class="text-2xl font-orbitron font-bold text-white mt-0.5">
-                                    <i class="fa-solid fa-droplet text-cyan-400 mr-1.5"></i>3.0L Water Goal
-                                </h3>
-                            </div>
-                            <span id="waterStatusBadge" class="px-2.5 py-1 rounded text-xs font-orbitron bg-slate-900 border border-cyan-500/40 text-cyan-300">
-                                INCOMPLETE
-                            </span>
-                        </div>
-                        <p class="text-xs text-slate-400 font-inter mt-1">Stay hydrated during long study raids to keep cognitive mana at 100%.</p>
+                        <span class="text-[10px] font-orbitron tracking-[0.25em] text-sysCyan uppercase">System Window // 01</span>
+                        <h2 class="text-2xl sm:text-3xl font-orbitron font-black text-white glow-cyan tracking-wider">STATUS WINDOW</h2>
+                    </div>
+                    <div class="text-right font-mono">
+                        <div class="text-xs text-cyan-300">UNALLOCATED AP</div>
+                        <div id="statusApCount" class="text-2xl font-orbitron font-black text-sysGold glow-gold">0</div>
+                    </div>
+                </div>
 
-                        <!-- Visual Water Tank -->
-                        <div class="my-6 flex items-center justify-center gap-6">
-                            <div class="w-28 h-48 bg-slate-950 border-2 border-cyan-400/60 rounded-2xl relative overflow-hidden p-1 shadow-inner">
-                                <div id="waterTankFill" class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-600 via-cyan-500 to-cyan-300 transition-all duration-500 opacity-85" style="height: 0%"></div>
-                                <!-- Measurement lines -->
-                                <div class="absolute inset-0 flex flex-col justify-between py-3 px-2 pointer-events-none text-[10px] font-orbitron text-white/70">
-                                    <div class="border-b border-white/20">3.0L</div>
-                                    <div class="border-b border-white/20">2.0L</div>
-                                    <div class="border-b border-white/20">1.0L</div>
-                                    <div>0.0L</div>
+                <!-- Player Identity & Bars Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+                    <!-- Column 1: Player Identity Box -->
+                    <div class="bg-slate-950/80 border border-cyan-500/30 p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-mono text-cyan-400">NAME:</span>
+                                <span class="font-orbitron font-bold text-white">SUNG JIN-WOO (CLASS XII)</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-xs font-mono text-cyan-400">JOB:</span>
+                                <span id="statusJob" class="font-orbitron font-bold text-sysPurple">Shadow Monarch Candidate</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-xs font-mono text-cyan-400">LEVEL:</span>
+                                <span id="statusLevelBig" class="font-orbitron font-black text-xl text-sysCyan">1</span>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-xs font-mono text-cyan-400">GOLD:</span>
+                                <span id="statusGoldBig" class="font-orbitron font-bold text-sysGold">100 G</span>
+                            </div>
+                        </div>
+
+                        <!-- HP / MP / FATIGUE Bars -->
+                        <div class="space-y-2.5 mt-5 pt-3 border-t border-cyan-500/20 font-mono text-xs">
+                            <div>
+                                <div class="flex justify-between mb-0.5">
+                                    <span class="text-emerald-400">HP (HYDRATION & VITALITY)</span>
+                                    <span id="statusHpText">1000 / 1000</span>
+                                </div>
+                                <div class="w-full h-2 bg-slate-900 overflow-hidden">
+                                    <div id="statusHpBar" class="h-full bg-emerald-400 transition-all" style="width: 100%"></div>
                                 </div>
                             </div>
                             <div>
-                                <div id="waterCurrentText" class="text-4xl font-orbitron font-black text-sysCyan glow-text-cyan">0.00L</div>
-                                <div class="text-sm text-slate-400 font-orbitron">of 3.00 Liters</div>
-                                <div id="waterPctText" class="text-lg font-bold text-purple-300 mt-1">0% Hydrated</div>
+                                <div class="flex justify-between mb-0.5">
+                                    <span class="text-sysCyan">MP (COGNITIVE MANA)</span>
+                                    <span id="statusMpText">500 / 500</span>
+                                </div>
+                                <div class="w-full h-2 bg-slate-900 overflow-hidden">
+                                    <div id="statusMpBar" class="h-full bg-sysCyan transition-all" style="width: 100%"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Water Controls -->
-                    <div class="space-y-2">
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="addWater(0.25)" class="py-2.5 px-3 rounded-lg bg-cyan-500/20 border border-sysCyan text-sysCyan hover:bg-sysCyan hover:text-slate-950 font-orbitron font-bold text-sm transition-all">
-                                +250 ml (1 Glass)
-                            </button>
-                            <button onclick="addWater(0.50)" class="py-2.5 px-3 rounded-lg bg-cyan-500/20 border border-sysCyan text-sysCyan hover:bg-sysCyan hover:text-slate-950 font-orbitron font-bold text-sm transition-all">
-                                +500 ml (Bottle)
-                            </button>
+                    <!-- Column 2: Core Attributes (Allocatable with AP) -->
+                    <div class="bg-slate-950/80 border border-cyan-500/30 p-4">
+                        <div class="flex justify-between items-center border-b border-cyan-500/20 pb-2 mb-3">
+                            <span class="font-orbitron text-xs font-bold text-sysCyan uppercase tracking-wider">
+                                <i class="fa-solid fa-chart-simple mr-1.5"></i>Player Attributes
+                            </span>
+                            <span class="text-[11px] font-mono text-slate-400">Base + Allocated + Subject Bonus</span>
                         </div>
-                        <button onclick="resetWater()" class="w-full py-1.5 text-xs text-slate-400 hover:text-red-400 font-orbitron transition-all">
-                            Reset Water Intake
+
+                        <div id="attributesContainer" class="space-y-2.5">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Column 3: World Syllabus Mastery Radar -->
+                    <div class="bg-slate-950/80 border border-cyan-500/30 p-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center border-b border-cyan-500/20 pb-2 mb-3">
+                                <span class="font-orbitron text-xs font-bold text-sysCyan uppercase tracking-wider">
+                                    <i class="fa-solid fa-globe mr-1.5"></i>World Gate Clearance
+                                </span>
+                                <span id="statusOverallPct" class="font-orbitron font-black text-sysCyan">0.0%</span>
+                            </div>
+
+                            <div id="statusSubjectBars" class="space-y-2.5">
+                                <!-- Populated via JS -->
+                            </div>
+                        </div>
+
+                        <button onclick="openSystemWindow('dungeons')" class="mt-4 w-full py-2.5 bg-cyan-500/20 hover:bg-sysCyan hover:text-slate-950 border border-sysCyan text-sysCyan font-orbitron font-bold text-xs uppercase tracking-widest transition-all">
+                            ENTER DUNGEON GATES <i class="fa-solid fa-arrow-right ml-1"></i>
                         </button>
                     </div>
                 </div>
-
-                <!-- Middle & Right Column: Daily Workout & Non-Negotiable Checklist -->
-                <div class="lg:col-span-2 system-box p-5 rounded-xl flex flex-col justify-between">
-                    <div>
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-500/30 pb-3">
-                            <div>
-                                <span class="text-xs font-orbitron text-red-400 uppercase tracking-wider">
-                                    <i class="fa-solid fa-triangle-exclamation mr-1"></i>Warning: Failure results in Penalty Zone
-                                </span>
-                                <h3 class="text-2xl font-orbitron font-bold text-white mt-0.5">
-                                    DAILY QUEST: STRENGTH OF THE MONARCH
-                                </h3>
-                            </div>
-                            <button onclick="startNewDayReset()" class="px-3 py-1.5 rounded-lg bg-purple-600/30 border border-purple-400 text-purple-200 hover:bg-purple-600 hover:text-white font-orbitron text-xs font-bold transition-all self-start sm:self-auto">
-                                <i class="fa-solid fa-rotate mr-1"></i>New Day Reset
-                            </button>
-                        </div>
-
-                        <!-- Daily Progress Bar -->
-                        <div class="my-4">
-                            <div class="flex justify-between text-xs font-orbitron mb-1">
-                                <span class="text-cyan-300">Daily Non-Negotiables Progress</span>
-                                <span id="dailyQuestPct" class="text-sysCyan font-bold">0%</span>
-                            </div>
-                            <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-cyan-500/40">
-                                <div id="dailyQuestBar" class="h-full bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all duration-300" style="width: 0%"></div>
-                            </div>
-                        </div>
-
-                        <!-- Daily Checklist Items -->
-                        <div id="dailyHabitsList" class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
-                            <!-- Rendered via JS -->
-                        </div>
-                    </div>
-
-                    <!-- Add Custom Daily Non-Negotiable -->
-                    <div class="mt-5 pt-4 border-t border-cyan-500/20">
-                        <label class="text-xs font-orbitron text-cyan-300 uppercase block mb-2">Add Custom Daily Non-Negotiable</label>
-                        <div class="flex gap-2">
-                            <input type="text" id="newDailyHabitInput" placeholder="e.g., 50 Pull-ups / Revise Formula Sheet..." class="flex-1 bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-2 text-sm text-white font-inter focus:outline-none focus:border-sysCyan">
-                            <button onclick="addCustomDailyHabit()" class="px-4 py-2 rounded-lg bg-sysCyan text-slate-950 font-orbitron font-bold text-xs sm:text-sm hover:bg-cyan-300 transition-all">
-                                <i class="fa-solid fa-plus mr-1"></i>ADD QUEST
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </section>
 
-        <!-- ==========================================
-             TAB 4: DUNGEON LOCK-IN TIMER & MP3 PLAYER
-        =========================================== -->
-        <section id="tabContent-timer" class="hidden space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                <!-- LOCK-IN DUNGEON TIMER -->
-                <div class="system-box p-6 rounded-xl flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center border-b border-cyan-500/30 pb-3">
-                            <div>
-                                <span class="text-xs font-orbitron text-cyan-400 uppercase">Instance Dungeon</span>
-                                <h3 class="text-2xl font-orbitron font-bold text-white">LOCK-IN FOCUS TIMER</h3>
-                            </div>
-                            <span id="timerStatusBadge" class="px-3 py-1 rounded text-xs font-orbitron bg-cyan-500/20 border border-sysCyan text-sysCyan">
-                                STANDBY
-                            </span>
-                        </div>
-
-                        <!-- Preset Duration Buttons (25m, 40m, 1hr, 2hr, 3hr) -->
-                        <div class="mt-4">
-                            <div class="text-xs font-orbitron text-slate-400 uppercase mb-2">Select Dungeon Raid Duration:</div>
-                            <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
-                                <button onclick="setTimerMinutes(25)" class="timer-preset-btn py-2 px-2 rounded-lg bg-slate-900 border border-cyan-500/40 hover:border-sysCyan text-cyan-300 font-orbitron text-xs font-bold transition-all">
-                                    25 MIN<br><span class="text-[10px] text-yellow-400">+30G</span>
-                                </button>
-                                <button onclick="setTimerMinutes(40)" class="timer-preset-btn py-2 px-2 rounded-lg bg-slate-900 border border-cyan-500/40 hover:border-sysCyan text-cyan-300 font-orbitron text-xs font-bold transition-all">
-                                    40 MIN<br><span class="text-[10px] text-yellow-400">+50G</span>
-                                </button>
-                                <button onclick="setTimerMinutes(60)" class="timer-preset-btn py-2 px-2 rounded-lg bg-slate-900 border border-cyan-500/40 hover:border-sysCyan text-cyan-300 font-orbitron text-xs font-bold transition-all">
-                                    1 HOUR<br><span class="text-[10px] text-yellow-400">+80G</span>
-                                </button>
-                                <button onclick="setTimerMinutes(120)" class="timer-preset-btn py-2 px-2 rounded-lg bg-slate-900 border border-cyan-500/40 hover:border-sysCyan text-cyan-300 font-orbitron text-xs font-bold transition-all">
-                                    2 HOURS<br><span class="text-[10px] text-yellow-400">+180G</span>
-                                </button>
-                                <button onclick="setTimerMinutes(180)" class="timer-preset-btn py-2 px-2 rounded-lg bg-slate-900 border border-cyan-500/40 hover:border-sysCyan text-cyan-300 font-orbitron text-xs font-bold transition-all">
-                                    3 HOURS<br><span class="text-[10px] text-yellow-400">+300G</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Big Digital Countdown Display -->
-                        <div class="my-8 text-center py-6 bg-slate-950/90 rounded-2xl border border-cyan-500/30 relative overflow-hidden">
-                            <div id="timerDisplay" class="text-5xl sm:text-7xl font-orbitron font-black text-white glow-text-cyan tracking-widest">
-                                00:25:00
-                            </div>
-                            <div id="timerRewardPreview" class="text-xs font-orbitron text-yellow-300/90 mt-2">
-                                Raid Clear Reward: +50 XP & +30 Gold
-                            </div>
-                            <div class="w-4/5 mx-auto h-2 bg-slate-800 rounded-full mt-4 overflow-hidden">
-                                <div id="timerProgressBar" class="h-full bg-sysCyan transition-all duration-300" style="width: 100%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Timer Controls -->
-                    <div class="space-y-3">
-                        <div class="flex gap-3">
-                            <button onclick="startPauseTimer()" id="timerStartBtn" class="flex-1 py-3 rounded-xl bg-sysCyan text-slate-950 font-orbitron font-black text-base tracking-wider hover:bg-cyan-300 transition-all shadow-lg shadow-cyan-500/20">
-                                <i class="fa-solid fa-play mr-2"></i>ENTER DUNGEON (START)
-                            </button>
-                            <button onclick="resetTimer()" class="px-5 py-3 rounded-xl bg-slate-900 border border-red-500/50 text-red-400 hover:bg-red-500/20 font-orbitron font-bold text-sm transition-all">
-                                <i class="fa-solid fa-rotate-left"></i>
-                            </button>
-                        </div>
-
-                        <!-- Custom Minutes Input -->
-                        <div class="flex items-center gap-2 pt-2">
-                            <span class="text-xs font-orbitron text-slate-400">Custom Raid (Min):</span>
-                            <input type="number" id="customTimerInput" min="1" max="600" placeholder="45" class="w-24 bg-slate-950 border border-cyan-500/40 rounded px-2.5 py-1 text-sm text-white font-orbitron">
-                            <button onclick="setCustomTimer()" class="px-3 py-1 rounded bg-cyan-500/20 border border-sysCyan text-sysCyan text-xs font-orbitron hover:bg-sysCyan hover:text-slate-950 transition-all">
-                                Set
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MP3 MUSIC UPLOAD & BGM PLAYER -->
-                <div class="system-box-purple p-6 rounded-xl flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center border-b border-purple-500/30 pb-3">
-                            <div>
-                                <span class="text-xs font-orbitron text-purple-400 uppercase">Shadow BGM System</span>
-                                <h3 class="text-2xl font-orbitron font-bold text-white glow-text-purple">
-                                    <i class="fa-solid fa-headphones mr-2 text-purple-400"></i>MP3 BGM PLAYER
-                                </h3>
-                            </div>
-                            <label for="mp3FileInput" class="cursor-pointer px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-orbitron text-xs font-bold transition-all shadow-lg shadow-purple-600/30">
-                                <i class="fa-solid fa-upload mr-1.5"></i>UPLOAD MP3s
-                            </label>
-                            <input type="file" id="mp3FileInput" accept="audio/*" multiple class="hidden" onchange="handleMP3Upload(event)">
-                        </div>
-
-                        <!-- Now Playing Box -->
-                        <div class="mt-4 bg-slate-950/90 p-4 rounded-xl border border-purple-500/40">
-                            <div class="flex items-center space-x-3">
-                                <div id="musicVisualizerIcon" class="w-12 h-12 rounded-lg bg-purple-900/50 border border-purple-400 flex items-center justify-center text-purple-300 text-xl">
-                                    <i class="fa-solid fa-music"></i>
-                                </div>
-                                <div class="flex-1 overflow-hidden">
-                                    <div class="text-[11px] font-orbitron text-purple-400 uppercase">Now Playing Track</div>
-                                    <div id="nowPlayingTitle" class="text-base font-bold text-white truncate font-inter">No MP3 Uploaded Yet</div>
-                                    <div id="nowPlayingTime" class="text-xs text-slate-400 font-orbitron">00:00 / 00:00</div>
-                                </div>
-                            </div>
-
-                            <!-- Audio Scrubber -->
-                            <input type="range" id="audioSeekBar" value="0" min="0" max="100" class="w-full mt-3 accent-purple-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg" oninput="seekAudio(this.value)">
-
-                            <!-- Player Controls -->
-                            <div class="flex items-center justify-between mt-3 pt-2 border-t border-purple-500/20">
-                                <div class="flex items-center space-x-2">
-                                    <button onclick="prevTrack()" class="w-9 h-9 rounded-lg bg-slate-900 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                                        <i class="fa-solid fa-backward-step"></i>
-                                    </button>
-                                    <button onclick="togglePlayAudio()" id="playPauseAudioBtn" class="w-11 h-11 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold shadow-md shadow-purple-500/30">
-                                        <i class="fa-solid fa-play"></i>
-                                    </button>
-                                    <button onclick="nextTrack()" class="w-9 h-9 rounded-lg bg-slate-900 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                                        <i class="fa-solid fa-forward-step"></i>
-                                    </button>
-                                    <button onclick="toggleLoopAudio()" id="loopAudioBtn" class="px-2.5 h-9 rounded-lg bg-slate-900 text-slate-400 border border-purple-500/30 text-xs font-orbitron" title="Loop Track">
-                                        <i class="fa-solid fa-repeat mr-1"></i>Loop: OFF
-                                    </button>
-                                </div>
-
-                                <!-- Volume -->
-                                <div class="flex items-center space-x-2">
-                                    <i class="fa-solid fa-volume-high text-purple-300 text-xs"></i>
-                                    <input type="range" min="0" max="1" step="0.05" value="0.8" class="w-20 accent-purple-500 cursor-pointer" oninput="changeVolume(this.value)">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Uploaded Playlist -->
-                        <div class="mt-4">
-                            <div class="text-xs font-orbitron text-purple-300 uppercase mb-2">Uploaded Dungeon Playlist:</div>
-                            <div id="mp3PlaylistContainer" class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-                                <div class="text-xs text-slate-500 italic py-4 text-center border border-dashed border-purple-500/20 rounded-lg">
-                                    Click "UPLOAD MP3s" above to load your favorite Solo Leveling OSTs, Phonk, or Lo-Fi tracks from your device!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <audio id="bgmAudioElement" class="hidden"></audio>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==========================================
-             TAB 5: SYSTEM STORE (BUY TEA, ANIME EP, ETC.)
-        =========================================== -->
-        <section id="tabContent-store" class="hidden space-y-6">
-            <div class="system-box p-5 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <!-- Bottom System Tips -->
+            <div class="p-3 bg-slate-950/90 border border-cyan-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-mono text-xs text-cyan-300">
                 <div>
-                    <span class="text-xs font-orbitron text-yellow-400 uppercase">Hunter's Exchange</span>
-                    <h2 class="text-2xl font-orbitron font-bold text-white">SYSTEM REWARDS STORE</h2>
-                    <p class="text-sm text-slate-300 font-inter">Exchange Gold earned from clearing PCM subtopics, chapters, and Lock-In timers for guilt-free rewards!</p>
+                    <span class="text-sysGold font-bold">[SYSTEM RULE]:</span> Unchecking a completed chapter or subtopic immediately recalculates your exact XP, Level, and Gold.
                 </div>
-                <div class="flex items-center space-x-3 bg-slate-950 px-4 py-2.5 rounded-xl border border-yellow-400/50">
-                    <i class="fa-solid fa-coins text-2xl text-sysGold"></i>
+                <div id="totalClearedCounter" class="text-white shrink-0">0 / 0 Quests Cleared</div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             WINDOW 2: [DUNGEON GATES] (PORTAL CARDS + MODAL)
+        ================================================== -->
+        <section id="win-dungeons" class="hidden flex-1 sys-window holo-corners p-4 sm:p-6 overflow-y-auto animate-holo flex-col gap-4">
+            <!-- Dungeon Map View (Shows 6 Subject Portals) -->
+            <div id="dungeonPortalMap" class="space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-500/40 pb-3">
                     <div>
-                        <div class="text-[10px] font-orbitron text-yellow-200 uppercase">Available Balance</div>
-                        <div id="storeGoldBalance" class="text-2xl font-orbitron font-black text-sysGold">100 G</div>
+                        <span class="text-[10px] font-orbitron tracking-[0.25em] text-sysCyan uppercase">System Window // 02</span>
+                        <h2 class="text-2xl sm:text-3xl font-orbitron font-black text-white glow-cyan">SELECT A DUNGEON GATE</h2>
+                    </div>
+                    <p class="text-xs font-mono text-cyan-300">Click any Gate below to project its Chapter & Boss Raid List.</p>
+                </div>
+
+                <!-- S-Rank PCM Gates -->
+                <div>
+                    <div class="text-xs font-orbitron text-red-400 uppercase tracking-widest mb-2 flex items-center">
+                        <i class="fa-solid fa-skull-crossbones mr-2"></i>S-Rank Red Gates (PCM Core — Subtopic Precision)
+                    </div>
+                    <div id="pcmGatesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+
+                <!-- B-Rank & C-Rank Side Gates -->
+                <div class="pt-2">
+                    <div class="text-xs font-orbitron text-purple-300 uppercase tracking-widest mb-2 flex items-center">
+                        <i class="fa-solid fa-bolt mr-2"></i>Medium & Small Fry Gates (One-Shot Chapter Clears)
+                    </div>
+                    <div id="sideGatesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Rendered via JS -->
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Store Items Grid -->
-                <div class="lg:col-span-2 space-y-4">
-                    <div id="storeItemsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- Populated via JS -->
+            <!-- Active Dungeon Inside View (Hidden until a Gate is clicked) -->
+            <div id="activeDungeonInterior" class="hidden flex-col h-full">
+                <!-- Interior Top Bar -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cyan-500/40 pb-3 shrink-0">
+                    <div class="flex items-center space-x-3">
+                        <button onclick="closeDungeonInterior()" class="px-3 py-1.5 bg-slate-900 hover:bg-sysCyan hover:text-slate-950 border border-sysCyan text-sysCyan font-orbitron font-bold text-xs uppercase transition-all">
+                            <i class="fa-solid fa-arrow-left mr-1"></i>EXIT GATE
+                        </button>
+                        <div>
+                            <div id="interiorGateRank" class="text-[10px] font-orbitron text-red-400 uppercase tracking-widest">S-RANK DUNGEON</div>
+                            <h3 id="interiorGateTitle" class="text-xl sm:text-2xl font-orbitron font-black text-white glow-cyan">PHYSICS GATE</h3>
+                        </div>
                     </div>
 
-                    <!-- Add Custom Store Reward -->
-                    <div class="system-box p-4 rounded-xl">
-                        <div class="text-xs font-orbitron text-cyan-300 uppercase mb-2">Add Custom Store Reward</div>
-                        <div class="flex flex-col sm:flex-row gap-2">
-                            <input type="text" id="customRewardName" placeholder="Reward Name (e.g., Eat Maggi / 20m Nap)" class="flex-1 bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-2 text-sm text-white font-inter">
-                            <input type="number" id="customRewardCost" placeholder="Cost (Gold)" min="10" class="w-full sm:w-32 bg-slate-950 border border-cyan-500/40 rounded-lg px-3 py-2 text-sm text-yellow-300 font-orbitron">
-                            <button onclick="addCustomStoreItem()" class="px-4 py-2 rounded-lg bg-sysCyan text-slate-950 font-orbitron font-bold text-xs uppercase hover:bg-cyan-300 transition-all">
-                                + Add Item
-                            </button>
+                    <div class="flex items-center gap-2">
+                        <div class="relative w-48 sm:w-60">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-cyan-400 text-xs"></i>
+                            <input type="text" id="dungeonSearchInput" oninput="renderActiveGateChapters()" placeholder="Filter chapters/topics..." class="w-full bg-slate-950 border border-cyan-500/40 pl-7 pr-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-sysCyan">
                         </div>
+                        <button onclick="toggleAllGateChapters(true)" class="px-2 py-1 bg-slate-900 border border-cyan-500/30 text-cyan-300 text-xs" title="Expand All"><i class="fa-solid fa-angles-down"></i></button>
+                        <button onclick="toggleAllGateChapters(false)" class="px-2 py-1 bg-slate-900 border border-cyan-500/30 text-cyan-300 text-xs" title="Collapse All"><i class="fa-solid fa-angles-up"></i></button>
                     </div>
                 </div>
 
-                <!-- Purchased Inventory / Reward Log -->
-                <div class="system-box p-5 rounded-xl flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center border-b border-cyan-500/30 pb-3">
-                            <h3 class="text-lg font-orbitron font-bold text-white">
-                                <i class="fa-solid fa-box-open text-sysCyan mr-2"></i>HUNTER INVENTORY
-                            </h3>
-                            <span id="inventoryCountBadge" class="px-2 py-0.5 text-xs font-orbitron bg-cyan-500/20 text-sysCyan rounded">0 Items</span>
-                        </div>
-                        <p class="text-xs text-slate-400 font-inter mt-1">Items you buy appear here. Click "CONSUME" when you actually take your break/reward!</p>
+                <!-- Interior Chapter List -->
+                <div id="interiorChaptersContainer" class="flex-1 overflow-y-auto space-y-3 mt-3 pr-1">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+        </section>
 
-                        <div id="inventoryList" class="mt-4 space-y-2.5 max-h-96 overflow-y-auto pr-1">
+        <!-- =================================================
+             WINDOW 3: [DAILY QUEST] (STRENGTH OF THE MONARCH)
+        ================================================== -->
+        <section id="win-daily" class="hidden flex-1 sys-window holo-corners p-4 sm:p-6 overflow-y-auto animate-holo flex-col gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-500/40 pb-3">
+                <div>
+                    <span class="text-[10px] font-orbitron tracking-[0.25em] text-red-400 uppercase">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i>Penalty Caution // Window 03
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-orbitron font-black text-white glow-cyan">DAILY QUEST: PREPARATIONS</h2>
+                </div>
+                <button onclick="triggerNewDay()" class="px-4 py-2 bg-purple-600/30 hover:bg-purple-600 border border-purple-400 text-white font-orbitron font-bold text-xs uppercase transition-all">
+                    <i class="fa-solid fa-rotate mr-1.5"></i>Complete Day & Advance Streak
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 flex-1">
+                <!-- 3.0L Elixir Hydration Tank -->
+                <div class="bg-slate-950/85 border border-cyan-500/30 p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-orbitron font-bold text-sm text-sysCyan uppercase">Elixir of Life (3.0L Water)</span>
+                            <span id="waterDoneTag" class="text-[10px] font-mono px-2 py-0.5 bg-slate-900 border border-cyan-500/40 text-cyan-300">INCOMPLETE</span>
+                        </div>
+
+                        <div class="my-5 flex items-center justify-center gap-6">
+                            <div class="w-24 h-44 bg-slate-900 border-2 border-sysCyan/60 relative overflow-hidden">
+                                <div id="waterFillBar" class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-blue-600 via-cyan-500 to-cyan-300 transition-all duration-500 opacity-85" style="height: 0%"></div>
+                                <div class="absolute inset-0 flex flex-col justify-between p-1.5 text-[10px] font-mono text-white/70 pointer-events-none">
+                                    <span>3.0L</span><span>2.0L</span><span>1.0L</span><span>0.0L</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div id="waterLiterDisplay" class="text-3xl font-orbitron font-black text-sysCyan glow-cyan">0.00L</div>
+                                <div class="text-xs font-mono text-slate-400">Target: 3.00 Liters</div>
+                                <div class="text-[11px] font-mono text-emerald-400 mt-2">Auto-clears Daily Hydration Quest at 3.0L</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="modifyWater(0.25, event)" class="py-2 bg-cyan-500/20 hover:bg-sysCyan hover:text-slate-950 border border-sysCyan text-sysCyan font-orbitron font-bold text-xs transition-all">+250 ML</button>
+                            <button onclick="modifyWater(0.50, event)" class="py-2 bg-cyan-500/20 hover:bg-sysCyan hover:text-slate-950 border border-sysCyan text-sysCyan font-orbitron font-bold text-xs transition-all">+500 ML</button>
+                        </div>
+                        <button onclick="modifyWater(-99, event)" class="w-full py-1 text-[11px] font-mono text-slate-400 hover:text-red-400">Reset Tank (0.0L)</button>
+                    </div>
+                </div>
+
+                <!-- Daily Non-Negotiables Checklist -->
+                <div class="lg:col-span-2 bg-slate-950/85 border border-cyan-500/30 p-4 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-orbitron font-bold text-sm text-white uppercase">Daily Non-Negotiable Directives (+20 XP, +15 G each)</span>
+                            <span id="dailyPctLabel" class="font-orbitron font-bold text-sysCyan text-sm">0%</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-900 border border-cyan-500/30 mb-4 overflow-hidden">
+                            <div id="dailyProgressBar" class="h-full bg-gradient-to-r from-sysCyan to-sysEmerald transition-all duration-300" style="width: 0%"></div>
+                        </div>
+
+                        <div id="dailyQuestsContainer" class="space-y-2 max-h-64 overflow-y-auto pr-1">
                             <!-- Populated via JS -->
                         </div>
                     </div>
+
+                    <!-- Add Custom Daily Quest -->
+                    <div class="pt-3 border-t border-cyan-500/20 flex gap-2 mt-4">
+                        <input type="text" id="customDailyInput" placeholder="Add custom daily quest (e.g., 50 Pull-ups / Revise Organic Named Reactions)..." class="flex-1 bg-slate-900 border border-cyan-500/40 px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-sysCyan">
+                        <button onclick="addCustomDailyQuest()" class="px-4 py-2 bg-sysCyan text-slate-950 font-orbitron font-bold text-xs uppercase">+ ADD</button>
+                    </div>
                 </div>
             </div>
         </section>
 
-    </main>
-
-    <!-- ==========================================
-         COMPLETE SYLLABUS & APPLICATION LOGIC
-    =========================================== -->
-    <script>
-        // 1. EXACT SYLLABUS DATA FROM UPLOADED NCERT & CBSE 2026-27 PDFs
-        const SYLLABUS_DATA = {
-            pcm: {
-                physics: {
-                    name: "PHYSICS (NCERT PART I & II)",
-                    icon: "⚛️",
-                    chapters: [
-                        {
-                            id: "phy_1",
-                            title: "Ch 1: Electric Charges and Fields",
-                            subtopics: [
-                                "1.1 Introduction", "1.2 Electric Charge", "1.3 Conductors and Insulators",
-                                "1.4 Basic Properties of Electric Charge", "1.5 Coulomb's Law", "1.6 Forces between Multiple Charges",
-                                "1.7 Electric Field", "1.8 Electric Field Lines", "1.9 Electric Flux", "1.10 Electric Dipole",
-                                "1.11 Dipole in a Uniform External Field", "1.12 Continuous Charge Distribution",
-                                "1.13 Gauss's Law", "1.14 Applications of Gauss's Law"
-                            ]
-                        },
-                        {
-                            id: "phy_2",
-                            title: "Ch 2: Electrostatic Potential and Capacitance",
-                            subtopics: [
-                                "2.1 Introduction", "2.2 Electrostatic Potential", "2.3 Potential due to a Point Charge",
-                                "2.4 Potential due to an Electric Dipole", "2.5 Potential due to a System of Charges",
-                                "2.6 Equipotential Surfaces", "2.7 Potential Energy of a System of Charges",
-                                "2.8 Potential Energy in an External Field", "2.9 Electrostatics of Conductors",
-                                "2.10 Dielectrics and Polarisation", "2.11 Capacitors and Capacitance",
-                                "2.12 The Parallel Plate Capacitor", "2.13 Effect of Dielectric on Capacitance",
-                                "2.14 Combination of Capacitors", "2.15 Energy Stored in a Capacitor"
-                            ]
-                        },
-                        {
-                            id: "phy_3",
-                            title: "Ch 3: Current Electricity",
-                            subtopics: [
-                                "3.1 Introduction", "3.2 Electric Current", "3.3 Electric Currents in Conductors",
-                                "3.4 Ohm's Law", "3.5 Drift of Electrons and the Origin of Resistivity",
-                                "3.6 Limitations of Ohm's Law", "3.7 Resistivity of Various Materials",
-                                "3.8 Temperature Dependence of Resistivity", "3.9 Electrical Energy, Power",
-                                "3.10 Cells, emf, Internal Resistance", "3.11 Cells in Series and in Parallel",
-                                "3.12 Kirchhoff's Rules", "3.13 Wheatstone Bridge"
-                            ]
-                        },
-                        {
-                            id: "phy_4",
-                            title: "Ch 4: Moving Charges and Magnetism",
-                            subtopics: [
-                                "4.1 Introduction", "4.2 Magnetic Force", "4.3 Motion in a Magnetic Field",
-                                "4.4 Magnetic Field due to a Current Element, Biot-Savart Law",
-                                "4.5 Magnetic Field on the Axis of a Circular Current Loop", "4.6 Ampere's Circuital Law",
-                                "4.7 The Solenoid", "4.8 Force between Two Parallel Currents, the Ampere",
-                                "4.9 Torque on Current Loop, Magnetic Dipole", "4.10 The Moving Coil Galvanometer"
-                            ]
-                        },
-                        {
-                            id: "phy_5",
-                            title: "Ch 5: Magnetism and Matter",
-                            subtopics: [
-                                "5.1 Introduction", "5.2 The Bar Magnet", "5.3 Magnetism and Gauss's Law",
-                                "5.4 Magnetisation and Magnetic Intensity", "5.5 Magnetic Properties of Materials"
-                            ]
-                        },
-                        {
-                            id: "phy_6",
-                            title: "Ch 6: Electromagnetic Induction",
-                            subtopics: [
-                                "6.1 Introduction", "6.2 The Experiments of Faraday and Henry", "6.3 Magnetic Flux",
-                                "6.4 Faraday's Law of Induction", "6.5 Lenz's Law and Conservation of Energy",
-                                "6.6 Motional Electromotive Force", "6.7 Inductance", "6.8 AC Generator"
-                            ]
-                        },
-                        {
-                            id: "phy_7",
-                            title: "Ch 7: Alternating Current",
-                            subtopics: [
-                                "7.1 Introduction", "7.2 AC Voltage Applied to a Resistor",
-                                "7.3 Representation of AC Current and Voltage by Rotating Vectors — Phasors",
-                                "7.4 AC Voltage Applied to an Inductor", "7.5 AC Voltage Applied to a Capacitor",
-                                "7.6 AC Voltage Applied to a Series LCR Circuit", "7.7 Power in AC Circuit: The Power Factor",
-                                "7.8 Transformers"
-                            ]
-                        },
-                        {
-                            id: "phy_8",
-                            title: "Ch 8: Electromagnetic Waves",
-                            subtopics: [
-                                "8.1 Introduction", "8.2 Displacement Current", "8.3 Electromagnetic Waves", "8.4 Electromagnetic Spectrum"
-                            ]
-                        },
-                        {
-                            id: "phy_9",
-                            title: "Ch 9: Ray Optics and Optical Instruments",
-                            subtopics: [
-                                "9.1 Introduction", "9.2 Reflection of Light by Spherical Mirrors", "9.3 Refraction",
-                                "9.4 Total Internal Reflection", "9.5 Refraction at Spherical Surfaces and by Lenses",
-                                "9.6 Refraction through a Prism", "9.7 Optical Instruments"
-                            ]
-                        },
-                        {
-                            id: "phy_10",
-                            title: "Ch 10: Wave Optics",
-                            subtopics: [
-                                "10.1 Introduction", "10.2 Huygens Principle",
-                                "10.3 Refraction and Reflection of Plane Waves using Huygens Principle",
-                                "10.4 Coherent and Incoherent Addition of Waves",
-                                "10.5 Interference of Light Waves and Young's Experiment",
-                                "10.6 Diffraction", "10.7 Polarisation"
-                            ]
-                        },
-                        {
-                            id: "phy_11",
-                            title: "Ch 11: Dual Nature of Radiation and Matter",
-                            subtopics: [
-                                "11.1 Introduction", "11.2 Electron Emission", "11.3 Photoelectric Effect",
-                                "11.4 Experimental Study of Photoelectric Effect",
-                                "11.5 Photoelectric Effect and Wave Theory of Light",
-                                "11.6 Einstein's Photoelectric Equation: Energy Quantum of Radiation",
-                                "11.7 Particle Nature of Light: The Photon", "11.8 Wave Nature of Matter"
-                            ]
-                        },
-                        {
-                            id: "phy_12",
-                            title: "Ch 12: Atoms",
-                            subtopics: [
-                                "12.1 Introduction", "12.2 Alpha-particle Scattering and Rutherford's Nuclear Model of Atom",
-                                "12.3 Atomic Spectra", "12.4 Bohr Model of the Hydrogen Atom",
-                                "12.5 The Line Spectra of the Hydrogen Atom",
-                                "12.6 DE Broglie's Explanation of Bohr's Second Postulate of Quantisation"
-                            ]
-                        },
-                        {
-                            id: "phy_13",
-                            title: "Ch 13: Nuclei",
-                            subtopics: [
-                                "13.1 Introduction", "13.2 Atomic Masses and Composition of Nucleus", "13.3 Size of the Nucleus",
-                                "13.4 Mass-Energy and Nuclear Binding Energy", "13.5 Nuclear Force",
-                                "13.6 Radioactivity", "13.7 Nuclear Energy"
-                            ]
-                        },
-                        {
-                            id: "phy_14",
-                            title: "Ch 14: Semiconductor Electronics: Materials, Devices and Simple Circuits",
-                            subtopics: [
-                                "14.1 Introduction", "14.2 Classification of Metals, Conductors and Semiconductors",
-                                "14.3 Intrinsic Semiconductor", "14.4 Extrinsic Semiconductor", "14.5 p-n Junction",
-                                "14.6 Semiconductor Diode", "14.7 Application of Junction Diode as a Rectifier"
-                            ]
-                        }
-                    ]
-                },
-                chemistry: {
-                    name: "CHEMISTRY (NCERT PART I & II)",
-                    icon: "🧪",
-                    chapters: [
-                        {
-                            id: "chem_1",
-                            title: "Unit 1: Solutions",
-                            subtopics: [
-                                "1.1 Types of Solutions", "1.2 Expressing Concentration of Solutions", "1.3 Solubility",
-                                "1.4 Vapour Pressure of Liquid Solutions", "1.5 Ideal and Non-ideal Solutions",
-                                "1.6 Colligative Properties and Determination of Molar Mass", "1.7 Abnormal Molar Masses"
-                            ]
-                        },
-                        {
-                            id: "chem_2",
-                            title: "Unit 2: Electrochemistry",
-                            subtopics: [
-                                "2.1 Electrochemical Cells", "2.2 Galvanic Cells", "2.3 Nernst Equation",
-                                "2.4 Conductance of Electrolytic Solutions", "2.5 Electrolytic Cells and Electrolysis",
-                                "2.6 Batteries", "2.7 Fuel Cells", "2.8 Corrosion"
-                            ]
-                        },
-                        {
-                            id: "chem_3",
-                            title: "Unit 3: Chemical Kinetics",
-                            subtopics: [
-                                "3.1 Rate of a Chemical Reaction", "3.2 Factors Influencing Rate of a Reaction",
-                                "3.3 Integrated Rate Equations", "3.4 Temperature Dependence of the Rate of a Reaction",
-                                "3.5 Collision Theory of Chemical Reactions"
-                            ]
-                        },
-                        {
-                            id: "chem_4",
-                            title: "Unit 4: The d- and f-Block Elements",
-                            subtopics: [
-                                "4.1 Position in the Periodic Table", "4.2 Electronic Configurations of the d-Block Elements",
-                                "4.3 General Properties of the Transition Elements (d-Block)",
-                                "4.4 Some Important Compounds of Transition Elements", "4.5 The Lanthanoids",
-                                "4.6 The Actinoids", "4.7 Some Applications of d- and f-Block Elements"
-                            ]
-                        },
-                        {
-                            id: "chem_5",
-                            title: "Unit 5: Coordination Compounds",
-                            subtopics: [
-                                "5.1 Werner's Theory of Coordination Compounds",
-                                "5.2 Definitions of Some Important Terms Pertaining to Coordination Compounds",
-                                "5.3 Nomenclature of Coordination Compounds", "5.4 Isomerism in Coordination Compounds",
-                                "5.5 Bonding in Coordination Compounds", "5.6 Bonding in Metal Carbonyls",
-                                "5.7 Importance and Applications of Coordination Compounds"
-                            ]
-                        },
-                        {
-                            id: "chem_6",
-                            title: "Unit 6: Haloalkanes and Haloarenes",
-                            subtopics: [
-                                "6.1 Classification", "6.2 Nomenclature", "6.3 Nature of C-X Bond",
-                                "6.4 Methods of Preparation of Haloalkanes", "6.5 Preparation of Haloarenes",
-                                "6.6 Physical Properties", "6.7 Chemical Reactions", "6.8 Polyhalogen Compounds"
-                            ]
-                        },
-                        {
-                            id: "chem_7",
-                            title: "Unit 7: Alcohols, Phenols and Ethers",
-                            subtopics: [
-                                "7.1 Classification", "7.2 Nomenclature", "7.3 Structures of Functional Groups",
-                                "7.4 Alcohols and Phenols", "7.5 Some Commercially Important Alcohols", "7.6 Ethers"
-                            ]
-                        },
-                        {
-                            id: "chem_8",
-                            title: "Unit 8: Aldehydes, Ketones and Carboxylic Acids",
-                            subtopics: [
-                                "8.1 Nomenclature and Structure of Carbonyl Group", "8.2 Preparation of Aldehydes and Ketones",
-                                "8.3 Physical Properties (Aldehydes & Ketones)", "8.4 Chemical Reactions (Aldehydes & Ketones)",
-                                "8.5 Uses of Aldehydes and Ketones", "8.6 Nomenclature and Structure of Carboxyl Group",
-                                "8.7 Methods of Preparation of Carboxylic Acids", "8.8 Physical Properties (Carboxylic Acids)",
-                                "8.9 Chemical Reactions (Carboxylic Acids)", "8.10 Uses of Carboxylic Acids"
-                            ]
-                        },
-                        {
-                            id: "chem_9",
-                            title: "Unit 9: Amines",
-                            subtopics: [
-                                "9.1 Structure of Amines", "9.2 Classification", "9.3 Nomenclature", "9.4 Preparation of Amines",
-                                "9.5 Physical Properties of Amines", "9.6 Chemical Reactions of Amines",
-                                "9.7 Method of Preparation of Diazonium Salts", "9.8 Physical Properties of Diazonium Salts",
-                                "9.9 Chemical Reactions of Diazonium Salts",
-                                "9.10 Importance of Diazonium Salts in Synthesis of Aromatic Compounds"
-                            ]
-                        },
-                        {
-                            id: "chem_10",
-                            title: "Unit 10: Biomolecules",
-                            subtopics: [
-                                "10.1 Carbohydrates", "10.2 Proteins", "10.3 Enzymes",
-                                "10.4 Vitamins", "10.5 Nucleic Acids", "10.6 Hormones"
-                            ]
-                        }
-                    ]
-                },
-                maths: {
-                    name: "MATHEMATICS (NCERT PART I & II)",
-                    icon: "📐",
-                    chapters: [
-                        {
-                            id: "math_1",
-                            title: "Ch 1: Relations and Functions",
-                            subtopics: [
-                                "1.1 Introduction", "1.2 Types of Relations", "1.3 Types of Functions",
-                                "1.4 Composition of Functions and Invertible Function"
-                            ]
-                        },
-                        {
-                            id: "math_2",
-                            title: "Ch 2: Inverse Trigonometric Functions",
-                            subtopics: [
-                                "2.1 Introduction", "2.2 Basic Concepts", "2.3 Properties of Inverse Trigonometric Functions"
-                            ]
-                        },
-                        {
-                            id: "math_3",
-                            title: "Ch 3: Matrices",
-                            subtopics: [
-                                "3.1 Introduction", "3.2 Matrix", "3.3 Types of Matrices", "3.4 Operations on Matrices",
-                                "3.5 Transpose of a Matrix", "3.6 Symmetric and Skew Symmetric Matrices", "3.7 Invertible Matrices"
-                            ]
-                        },
-                        {
-                            id: "math_4",
-                            title: "Ch 4: Determinants",
-                            subtopics: [
-                                "4.1 Introduction", "4.2 Determinant", "4.3 Area of a Triangle", "4.4 Minors and Cofactors",
-                                "4.5 Adjoint and Inverse of a Matrix", "4.6 Applications of Determinants and Matrices"
-                            ]
-                        },
-                        {
-                            id: "math_5",
-                            title: "Ch 5: Continuity and Differentiability",
-                            subtopics: [
-                                "5.1 Introduction", "5.2 Continuity", "5.3 Differentiability",
-                                "5.4 Exponential and Logarithmic Functions", "5.5 Logarithmic Differentiation",
-                                "5.6 Derivatives of Functions in Parametric Forms", "5.7 Second Order Derivative"
-                            ]
-                        },
-                        {
-                            id: "math_6",
-                            title: "Ch 6: Application of Derivatives",
-                            subtopics: [
-                                "6.1 Introduction", "6.2 Rate of Change of Quantities",
-                                "6.3 Increasing and Decreasing Functions", "6.4 Maxima and Minima"
-                            ]
-                        },
-                        {
-                            id: "math_7",
-                            title: "Ch 7: Integrals",
-                            subtopics: [
-                                "7.1 Introduction", "7.2 Integration as an Inverse Process of Differentiation",
-                                "7.3 Methods of Integration", "7.4 Integrals of Some Particular Functions",
-                                "7.5 Integration by Partial Fractions", "7.6 Integration by Parts", "7.7 Definite Integral",
-                                "7.8 Fundamental Theorem of Calculus", "7.9 Evaluation of Definite Integrals by Substitution",
-                                "7.10 Some Properties of Definite Integrals"
-                            ]
-                        },
-                        {
-                            id: "math_8",
-                            title: "Ch 8: Application of Integrals",
-                            subtopics: [
-                                "8.1 Introduction", "8.2 Area under Simple Curves"
-                            ]
-                        },
-                        {
-                            id: "math_9",
-                            title: "Ch 9: Differential Equations",
-                            subtopics: [
-                                "9.1 Introduction", "9.2 Basic Concepts",
-                                "9.3 General and Particular Solutions of a Differential Equation",
-                                "9.4 Methods of Solving First Order, First Degree Differential Equations"
-                            ]
-                        },
-                        {
-                            id: "math_10",
-                            title: "Ch 10: Vector Algebra",
-                            subtopics: [
-                                "10.1 Introduction", "10.2 Some Basic Concepts", "10.3 Types of Vectors",
-                                "10.4 Addition of Vectors", "10.5 Multiplication of a Vector by a Scalar",
-                                "10.6 Product of Two Vectors"
-                            ]
-                        },
-                        {
-                            id: "math_11",
-                            title: "Ch 11: Three Dimensional Geometry",
-                            subtopics: [
-                                "11.1 Introduction", "11.2 Direction Cosines and Direction Ratios of a Line",
-                                "11.3 Equation of a Line in Space", "11.4 Angle between Two Lines",
-                                "11.5 Shortest Distance between Two Lines"
-                            ]
-                        },
-                        {
-                            id: "math_12",
-                            title: "Ch 12: Linear Programming",
-                            subtopics: [
-                                "12.1 Introduction", "12.2 Linear Programming Problem and its Mathematical Formulation"
-                            ]
-                        },
-                        {
-                            id: "math_13",
-                            title: "Ch 13: Probability",
-                            subtopics: [
-                                "13.1 Introduction", "13.2 Conditional Probability",
-                                "13.3 Multiplication Theorem on Probability", "13.4 Independent Events", "13.5 Bayes' Theorem"
-                            ]
-                        }
-                    ]
-                }
-            },
-            side: {
-                english: {
-                    name: "ENGLISH CORE (MEDIUM BOSS)",
-                    rankTag: "B-RANK DUNGEON",
-                    color: "amber",
-                    chapters: [
-                        "Flamingo Prose 1: The Last Lesson",
-                        "Flamingo Prose 2: Lost Spring",
-                        "Flamingo Prose 3: Deep Water",
-                        "Flamingo Prose 4: The Rattrap",
-                        "Flamingo Prose 5: Indigo",
-                        "Flamingo Prose 6: Poets and Pancakes",
-                        "Flamingo Prose 7: The Interview (Part I & II)",
-                        "Flamingo Prose 8: Going Places",
-                        "Flamingo Poetry 1: My Mother at Sixty-six",
-                        "Flamingo Poetry 2: Keeping Quiet",
-                        "Flamingo Poetry 3: A Thing of Beauty",
-                        "Flamingo Poetry 4: A Roadside Stand",
-                        "Flamingo Poetry 5: Aunt Jennifer's Tigers",
-                        "Vistas Ch 1: The Third Level",
-                        "Vistas Ch 2: The Tiger King",
-                        "Vistas Ch 3: Journey to the End of the Earth",
-                        "Vistas Ch 4: The Enemy",
-                        "Vistas Ch 5: On the Face of It",
-                        "Vistas Ch 6: Memories of Childhood (Cutting of My Long Hair & We Too are Human Beings)"
-                    ]
-                },
-                ai: {
-                    name: "ARTIFICIAL INTELLIGENCE (843)",
-                    rankTag: "SMALL FRY RAID",
-                    color: "pink",
-                    chapters: [
-                        "Part A - Unit 1: Communication Skills-IV",
-                        "Part A - Unit 2: Self-Management Skills-IV",
-                        "Part A - Unit 3: ICT Skills-IV",
-                        "Part A - Unit 4: Entrepreneurial Skills-IV",
-                        "Part A - Unit 5: Green Skills-IV",
-                        "Part B - Unit 1: Python Programming - II (Practical)",
-                        "Part B - Unit 2: Data Science Methodology: Analytic Approach to Capstone",
-                        "Part B - Unit 3: Making Machines See (Computer Vision)",
-                        "Part B - Unit 4: AI with Orange Data Mining Tool (Practical)",
-                        "Part B - Unit 5: Introduction to Big Data and Data Analytics",
-                        "Part B - Unit 6: Understanding Neural Networks",
-                        "Part B - Unit 7: Generative AI",
-                        "Part B - Unit 8: Data Storytelling",
-                        "Part C - Capstone Project & Practical File Viva"
-                    ]
-                },
-                pe: {
-                    name: "PHYSICAL EDUCATION",
-                    rankTag: "SMALL FRY RAID",
-                    color: "lime",
-                    chapters: [
-                        "Unit I: Management of Sporting Events",
-                        "Unit II: Children and Women in Sports",
-                        "Unit III: Yoga as Preventive Measure for Lifestyle Disease",
-                        "Unit IV: Physical Education & Sport for Children with Special Needs",
-                        "Unit V: Sports and Nutrition",
-                        "Unit VI: Test and Measurement in Sports",
-                        "Unit VII: Physiology and Injuries in Sports",
-                        "Unit VIII: Biomechanics & Sports",
-                        "Unit IX: Psychology and Sports",
-                        "Unit X: Training in Sports"
-                    ]
-                }
-            }
-        };
-
-        // 2. APPLICATION STATE (Saved in LocalStorage)
-        const STORAGE_KEY = "SOLO_LEVELING_CLASS12_STATE_V1";
-        let state = {
-            xp: 0,
-            gold: 100,
-            streak: 1,
-            completedItems: {}, // key: true
-            expandedChapters: { "phy_1": true, "chem_1": true, "math_1": true },
-            activePCM: "physics",
-            waterLiters: 0,
-            dailyCompletedDate: null,
-            dailyHabits: [
-                { id: "dh_1", text: "🏋️‍♂️ Daily Workout: Push-ups, Squats & Core Calisthenics", done: false },
-                { id: "dh_2", text: "💧 Drink 3.0 Liters of Water (Auto-checks at 3L)", done: false },
-                { id: "dh_3", text: "⚡ Solve at least 20 PCM Numericals / PYQs", done: false },
-                { id: "dh_4", text: "📓 Revise Formula Sheet before Sleep", done: false }
-            ],
-            storeItems: [
-                { id: "st_1", name: "Buy a Hot Cup of Tea / Coffee", cost: 50, icon: "☕", desc: "Recharge mana with a fresh cup of chai or coffee." },
-                { id: "st_2", name: "Watch 1 Anime Episode", cost: 150, icon: "🎬", desc: "24 minutes of guilt-free anime episode reward." },
-                { id: "st_3", name: "15 Min Music / Chill Break", cost: 40, icon: "🎵", desc: "Lie down and vibe to your playlist for 15 mins." },
-                { id: "st_4", name: "30 Min Gaming / YouTube Session", cost: 120, icon: "🎮", desc: "Unwind with a 30-minute gaming or video session." },
-                { id: "st_5", name: "Snack / Maggi Break", cost: 80, icon: "🍜", desc: "Treat yourself to your favorite study snack." },
-                { id: "st_6", name: "1 Hour Movie / Series Night", cost: 300, icon: "🍿", desc: "Big reward after clearing major boss chapters." }
-            ],
-            inventory: []
-        };
-
-        function loadState() {
-            try {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    state = { ...state, ...parsed };
-                }
-            } catch (e) {
-                console.error("Failed to load state", e);
-            }
-        }
-
-        function saveState() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-            } catch (e) {
-                console.error("Failed to save state", e);
-            }
-        }
-
-        // 3. NOTIFICATION & SOUND EFFECTS (Web Audio API)
-        function playSystemSound(type = 'tick') {
-            try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-
-                if (type === 'tick') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(580, ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.08);
-                    gain.gain.setValueAtTime(0.12, ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.09);
-                    osc.start();
-                    osc.stop(ctx.currentTime + 0.09);
-                } else if (type === 'levelup') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(440, ctx.currentTime);
-                    osc.frequency.setValueAtTime(554, ctx.currentTime + 0.1);
-                    osc.frequency.setValueAtTime(659, ctx.currentTime + 0.2);
-                    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.3);
-                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.55);
-                    osc.start();
-                    osc.stop(ctx.currentTime + 0.55);
-                }
-            } catch (e) {}
-        }
-
-        let toastTimeout;
-        function showSystemToast(title, message) {
-            const toast = document.getElementById('systemToast');
-            document.getElementById('toastTitle').textContent = title;
-            document.getElementById('toastMessage').textContent = message;
-            toast.classList.remove('translate-x-full', 'opacity-0');
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.add('translate-x-full', 'opacity-0');
-            }, 3000);
-        }
-
-        // 4. PROGRESS & PLAYER STATS CALCULATION
-        function getSubjectStats(subjectKey) {
-            let total = 0;
-            let done = 0;
-
-            if (SYLLABUS_DATA.pcm[subjectKey]) {
-                SYLLABUS_DATA.pcm[subjectKey].chapters.forEach(ch => {
-                    ch.subtopics.forEach((_, idx) => {
-                        total++;
-                        if (state.completedItems[`${ch.id}_sub_${idx}`]) done++;
-                    });
-                });
-            } else if (SYLLABUS_DATA.side[subjectKey]) {
-                SYLLABUS_DATA.side[subjectKey].chapters.forEach((_, idx) => {
-                    total++;
-                    if (state.completedItems[`side_${subjectKey}_${idx}`]) done++;
-                });
-            }
-            const pct = total === 0 ? 0 : (done / total) * 100;
-            return { total, done, pct };
-        }
-
-        function updateAllProgressUI() {
-            const subjects = ['physics', 'chemistry', 'maths', 'english', 'ai', 'pe'];
-            let grandTotal = 0;
-            let grandDone = 0;
-
-            subjects.forEach(sub => {
-                const st = getSubjectStats(sub);
-                grandTotal += st.total;
-                grandDone += st.done;
-
-                const miniPct = document.getElementById(`miniPct-${sub}`);
-                const miniBar = document.getElementById(`miniBar-${sub}`);
-                if (miniPct && miniBar) {
-                    miniPct.textContent = `${Math.round(st.pct)}%`;
-                    miniBar.style.width = `${st.pct}%`;
-                }
-            });
-
-            const overallPct = grandTotal === 0 ? 0 : (grandDone / grandTotal) * 100;
-            document.getElementById('mainProgressPercent').textContent = `${overallPct.toFixed(1)}%`;
-            document.getElementById('mainProgressBar').style.width = `${overallPct}%`;
-            document.getElementById('completedStatsText').textContent = `${grandDone} / ${grandTotal} Total Syllabus Quests Cleared`;
-
-            // Update Active PCM Header Bar
-            const activeSt = getSubjectStats(state.activePCM);
-            document.getElementById('activePCMPct').textContent = `${activeSt.pct.toFixed(1)}% (${activeSt.done}/${activeSt.total})`;
-            document.getElementById('activePCMBar').style.width = `${activeSt.pct}%`;
-
-            // Calculate Level & Rank
-            const level = Math.floor(state.xp / 100) + 1;
-            const xpInLevel = state.xp % 100;
-            document.getElementById('playerLevel').textContent = level;
-            document.getElementById('xpBar').style.width = `${xpInLevel}%`;
-            document.getElementById('xpText').textContent = `${xpInLevel} / 100 XP`;
-            document.getElementById('playerGold').textContent = state.gold;
-            document.getElementById('storeGoldBalance').textContent = `${state.gold} G`;
-            document.getElementById('streakCount').textContent = state.streak;
-
-            // Rank Evaluation based on Overall %
-            let rank = "E";
-            let title = "E-Rank Novice Hunter";
-            if (overallPct >= 95) { rank = "👑"; title = "Shadow Monarch of Class XII"; }
-            else if (overallPct >= 80) { rank = "S"; title = "S-Rank National Hunter"; }
-            else if (overallPct >= 60) { rank = "A"; title = "A-Rank Dungeon Crusher"; }
-            else if (overallPct >= 40) { rank = "B"; title = "B-Rank Vanguard"; }
-            else if (overallPct >= 20) { rank = "C"; title = "C-Rank Awakened"; }
-            else if (overallPct >= 5)  { rank = "D"; title = "D-Rank Challenger"; }
-
-            document.getElementById('rankBadge').textContent = rank;
-            document.getElementById('playerTitle').textContent = title;
-        }
-
-        // 5. RENDER PCM CHAPTERS & SUBTOPICS
-        function switchPCMSubject(subKey) {
-            state.activePCM = subKey;
-            saveState();
-
-            ['physics', 'chemistry', 'maths'].forEach(k => {
-                const btn = document.getElementById(`pcmBtn-${k}`);
-                if (k === subKey) {
-                    btn.className = "px-4 py-2 rounded-lg font-orbitron text-xs sm:text-sm font-bold bg-cyan-500 text-slate-950 transition-all shadow-md shadow-cyan-500/30";
-                } else {
-                    btn.className = "px-4 py-2 rounded-lg font-orbitron text-xs sm:text-sm font-bold bg-slate-900 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all";
-                }
-            });
-
-            document.getElementById('activePCMTitle').textContent = SYLLABUS_DATA.pcm[subKey].name;
-            renderPCMChapters();
-            updateAllProgressUI();
-        }
-
-        function renderPCMChapters() {
-            const container = document.getElementById('pcmChaptersList');
-            const searchQuery = (document.getElementById('pcmSearchInput')?.value || "").toLowerCase();
-            const subject = SYLLABUS_DATA.pcm[state.activePCM];
-
-            container.innerHTML = "";
-
-            subject.chapters.forEach(ch => {
-                const matchingSubtopics = ch.subtopics.map((st, idx) => ({ text: st, idx })).filter(item =>
-                    item.text.toLowerCase().includes(searchQuery) || ch.title.toLowerCase().includes(searchQuery)
-                );
-
-                if (searchQuery && matchingSubtopics.length === 0) return;
-
-                const totalSubs = ch.subtopics.length;
-                let doneSubs = 0;
-                ch.subtopics.forEach((_, idx) => {
-                    if (state.completedItems[`${ch.id}_sub_${idx}`]) doneSubs++;
-                });
-                const chPct = totalSubs === 0 ? 0 : Math.round((doneSubs / totalSubs) * 100);
-                const isExpanded = searchQuery ? true : !!state.expandedChapters[ch.id];
-
-                const card = document.createElement('div');
-                card.className = `system-box rounded-xl overflow-hidden transition-all border ${chPct === 100 ? 'border-emerald-400/60' : 'border-cyan-500/30'}`;
-
-                card.innerHTML = `
-                    <!-- Chapter Header -->
-                    <div class="p-4 bg-slate-950/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer hover:bg-slate-900/70 transition-all" onclick="toggleChapterExpand('${ch.id}')">
-                        <div class="flex items-start sm:items-center space-x-3">
-                            <button onclick="event.stopPropagation(); toggleEntireChapter('${ch.id}', ${totalSubs})" class="w-6 h-6 rounded border-2 flex items-center justify-center transition-all mt-0.5 sm:mt-0 ${chPct === 100 ? 'bg-emerald-400 border-emerald-400 text-slate-950 font-black' : 'border-cyan-400 text-transparent hover:border-white'}" title="Mark Entire Chapter Done">
-                                ✔
-                            </button>
-                            <div>
-                                <div class="flex items-center space-x-2">
-                                    <h3 class="text-base sm:text-lg font-orbitron font-bold ${chPct === 100 ? 'text-emerald-300 line-through' : 'text-white'}">${ch.title}</h3>
-                                    ${chPct === 100 ? '<span class="px-2 py-0.5 text-[10px] font-orbitron bg-emerald-500/20 border border-emerald-400 text-emerald-300 rounded">BOSS CLEARED</span>' : ''}
-                                </div>
-                                <div class="text-xs text-slate-400 font-inter">${doneSubs} of ${totalSubs} Subtopics Completed</div>
-                            </div>
-                        </div>
-
-                        <!-- Chapter Individual Progress Bar (0 to 100%) -->
-                        <div class="flex items-center space-x-3 w-full sm:w-64">
-                            <div class="flex-1">
-                                <div class="flex justify-between text-xs font-orbitron mb-1">
-                                    <span class="text-slate-400">Chapter Progress</span>
-                                    <span class="${chPct === 100 ? 'text-emerald-400' : 'text-sysCyan'} font-bold">${chPct}%</span>
-                                </div>
-                                <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-cyan-500/30">
-                                    <div class="h-full ${chPct === 100 ? 'bg-emerald-400' : 'bg-gradient-to-r from-cyan-400 to-blue-500'} transition-all duration-300" style="width: ${chPct}%"></div>
-                                </div>
-                            </div>
-                            <i class="fa-solid fa-chevron-${isExpanded ? 'up' : 'down'} text-cyan-400 text-sm w-4 text-center"></i>
-                        </div>
-                    </div>
-
-                    <!-- Subtopics List -->
-                    <div class="${isExpanded ? 'block' : 'hidden'} p-4 pt-2 border-t border-cyan-500/20 bg-slate-950/30">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-                            ${matchingSubtopics.map(item => {
-                                const key = `${ch.id}_sub_${item.idx}`;
-                                const checked = !!state.completedItems[key];
-                                return `
-                                    <label class="flex items-center space-x-3 p-2.5 rounded-lg border ${checked ? 'bg-cyan-950/30 border-cyan-500/40 text-cyan-200 line-through opacity-75' : 'bg-slate-900/70 border-slate-800 hover:border-cyan-500/40 text-slate-200'} cursor-pointer transition-all">
-                                        <input type="checkbox" class="sys-checkbox" ${checked ? 'checked' : ''} onchange="toggleSubtopic('${key}')">
-                                        <span class="text-sm font-inter select-none">${item.text}</span>
-                                    </label>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function toggleChapterExpand(chId) {
-            state.expandedChapters[chId] = !state.expandedChapters[chId];
-            saveState();
-            renderPCMChapters();
-        }
-
-        function expandCollapseAllPCM(expand) {
-            SYLLABUS_DATA.pcm[state.activePCM].chapters.forEach(ch => {
-                state.expandedChapters[ch.id] = expand;
-            });
-            saveState();
-            renderPCMChapters();
-        }
-
-        function toggleSubtopic(key) {
-            const isNowDone = !state.completedItems[key];
-            if (isNowDone) {
-                state.completedItems[key] = true;
-                state.xp += 15;
-                state.gold += 10;
-                playSystemSound('tick');
-                showSystemToast("SUBTOPIC CLEARED!", "+15 XP | +10 Gold Coins");
-            } else {
-                delete state.completedItems[key];
-                state.xp = Math.max(0, state.xp - 15);
-                state.gold = Math.max(0, state.gold - 10);
-            }
-            saveState();
-            renderPCMChapters();
-            updateAllProgressUI();
-        }
-
-        function toggleEntireChapter(chId, totalSubs) {
-            let allDone = true;
-            for (let i = 0; i < totalSubs; i++) {
-                if (!state.completedItems[`${chId}_sub_${i}`]) {
-                    allDone = false;
-                    break;
-                }
-            }
-
-            let newlyAdded = 0;
-            for (let i = 0; i < totalSubs; i++) {
-                const key = `${chId}_sub_${i}`;
-                if (!allDone && !state.completedItems[key]) {
-                    state.completedItems[key] = true;
-                    newlyAdded++;
-                } else if (allDone && state.completedItems[key]) {
-                    delete state.completedItems[key];
-                }
-            }
-
-            if (!allDone && newlyAdded > 0) {
-                const xpGain = newlyAdded * 15;
-                const goldGain = newlyAdded * 10;
-                state.xp += xpGain;
-                state.gold += goldGain;
-                playSystemSound('levelup');
-                showSystemToast("CHAPTER RAID CLEARED!", `+${xpGain} XP | +${goldGain} Gold Coins`);
-            }
-            saveState();
-            renderPCMChapters();
-            updateAllProgressUI();
-        }
-
-        // 6. RENDER MEDIUM & SMALL FRIES (ENGLISH, AI, PE)
-        function renderSideSubjects() {
-            const container = document.getElementById('sideSubjectsContainer');
-            container.innerHTML = "";
-
-            Object.keys(SYLLABUS_DATA.side).forEach(subKey => {
-                const sub = SYLLABUS_DATA.side[subKey];
-                const st = getSubjectStats(subKey);
-                const pct = Math.round(st.pct);
-
-                const col = document.createElement('div');
-                col.className = "system-box rounded-xl p-4 flex flex-col justify-between";
-                col.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-start border-b border-cyan-500/20 pb-3">
-                            <div>
-                                <span class="text-[10px] font-orbitron px-2 py-0.5 rounded bg-purple-500/20 border border-purple-400 text-purple-300 uppercase">${sub.rankTag}</span>
-                                <h3 class="text-lg font-orbitron font-bold text-white mt-1">${sub.name}</h3>
-                            </div>
-                            <span class="text-xl font-orbitron font-black text-sysCyan">${pct}%</span>
-                        </div>
-
-                        <!-- Progress bar -->
-                        <div class="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-cyan-500/30 my-3">
-                            <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-300" style="width: ${pct}%"></div>
-                        </div>
-
-                        <!-- One-Go Chapter List -->
-                        <div class="space-y-2 mt-3 max-h-[420px] overflow-y-auto pr-1">
-                            ${sub.chapters.map((chName, idx) => {
-                                const key = `side_${subKey}_${idx}`;
-                                const checked = !!state.completedItems[key];
-                                return `
-                                    <label class="flex items-center justify-between p-2.5 rounded-lg border ${checked ? 'bg-purple-950/30 border-purple-500/40 text-purple-200 line-through opacity-75' : 'bg-slate-900/70 border-slate-800 hover:border-purple-400/50 text-slate-200'} cursor-pointer transition-all">
-                                        <div class="flex items-center space-x-3 pr-2">
-                                            <input type="checkbox" class="sys-checkbox" ${checked ? 'checked' : ''} onchange="toggleSideChapter('${key}')">
-                                            <span class="text-sm font-inter">${chName}</span>
-                                        </div>
-                                        <span class="text-[10px] font-orbitron text-yellow-400 shrink-0">+25G</span>
-                                    </label>
-                                `;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(col);
-            });
-        }
-
-        function toggleSideChapter(key) {
-            const isNowDone = !state.completedItems[key];
-            if (isNowDone) {
-                state.completedItems[key] = true;
-                state.xp += 40;
-                state.gold += 25;
-                playSystemSound('levelup');
-                showSystemToast("ONE-SHOT CHAPTER CLEARED!", "+40 XP | +25 Gold Coins");
-            } else {
-                delete state.completedItems[key];
-                state.xp = Math.max(0, state.xp - 40);
-                state.gold = Math.max(0, state.gold - 25);
-            }
-            saveState();
-            renderSideSubjects();
-            updateAllProgressUI();
-        }
-
-        // 7. DAILY NON-NEGOTIABLES & 3L WATER TRACKER
-        function renderDailyNonNegotiables() {
-            // Water Tank UI
-            const waterPct = Math.min(100, Math.round((state.waterLiters / 3.0) * 100));
-            document.getElementById('waterTankFill').style.height = `${waterPct}%`;
-            document.getElementById('waterCurrentText').textContent = `${state.waterLiters.toFixed(2)}L`;
-            document.getElementById('waterPctText').textContent = `${waterPct}% Hydrated`;
-
-            const waterBadge = document.getElementById('waterStatusBadge');
-            if (state.waterLiters >= 3.0) {
-                waterBadge.textContent = "3L GOAL CLEARED ✔";
-                waterBadge.className = "px-2.5 py-1 rounded text-xs font-orbitron bg-emerald-500/20 border border-emerald-400 text-emerald-300";
-            } else {
-                waterBadge.textContent = "IN PROGRESS";
-                waterBadge.className = "px-2.5 py-1 rounded text-xs font-orbitron bg-slate-900 border border-cyan-500/40 text-cyan-300";
-            }
-
-            // Daily Habits List
-            const list = document.getElementById('dailyHabitsList');
-            list.innerHTML = "";
-            let doneCount = 0;
-
-            state.dailyHabits.forEach((h, index) => {
-                if (h.done) doneCount++;
-                const item = document.createElement('div');
-                item.className = `flex items-center justify-between p-3 rounded-lg border ${h.done ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-200 line-through' : 'bg-slate-900/80 border-cyan-500/20 text-white'}`;
-                item.innerHTML = `
-                    <label class="flex items-center space-x-3 cursor-pointer flex-1">
-                        <input type="checkbox" class="sys-checkbox" ${h.done ? 'checked' : ''} onchange="toggleDailyHabit(${index})">
-                        <span class="text-sm sm:text-base font-inter">${h.text}</span>
-                    </label>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xs font-orbitron text-yellow-400">+15G</span>
-                        ${index > 3 ? `<button onclick="deleteDailyHabit(${index})" class="text-slate-500 hover:text-red-400 text-xs px-1"><i class="fa-solid fa-trash"></i></button>` : ''}
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-
-            const totalHabits = state.dailyHabits.length;
-            const dailyPct = totalHabits === 0 ? 0 : Math.round((doneCount / totalHabits) * 100);
-            document.getElementById('dailyQuestPct').textContent = `${dailyPct}% (${doneCount}/${totalHabits})`;
-            document.getElementById('dailyQuestBar').style.width = `${dailyPct}%`;
-        }
-
-        function addWater(amount) {
-            const prev = state.waterLiters;
-            state.waterLiters = Math.min(4.5, +(state.waterLiters + amount).toFixed(2));
-            playSystemSound('tick');
-
-            // Auto-check the 3L water habit if reached
-            if (prev < 3.0 && state.waterLiters >= 3.0) {
-                const waterHabit = state.dailyHabits.find(h => h.id === "dh_2");
-                if (waterHabit && !waterHabit.done) {
-                    waterHabit.done = true;
-                    state.xp += 30;
-                    state.gold += 25;
-                    playSystemSound('levelup');
-                    showSystemToast("3.0L HYDRATION CLEARED!", "+30 XP | +25 Gold Coins");
-                }
-            }
-            saveState();
-            renderDailyNonNegotiables();
-            updateAllProgressUI();
-        }
-
-        function resetWater() {
-            state.waterLiters = 0;
-            saveState();
-            renderDailyNonNegotiables();
-        }
-
-        function toggleDailyHabit(idx) {
-            const habit = state.dailyHabits[idx];
-            habit.done = !habit.done;
-            if (habit.done) {
-                state.xp += 20;
-                state.gold += 15;
-                playSystemSound('tick');
-                showSystemToast("DAILY QUEST UPDATED", "+20 XP | +15 Gold Coins");
-            } else {
-                state.xp = Math.max(0, state.xp - 20);
-                state.gold = Math.max(0, state.gold - 15);
-            }
-            saveState();
-            renderDailyNonNegotiables();
-            updateAllProgressUI();
-        }
-
-        function addCustomDailyHabit() {
-            const inp = document.getElementById('newDailyHabitInput');
-            const text = inp.value.trim();
-            if (!text) return;
-            state.dailyHabits.push({ id: "dh_" + Date.now(), text: "🔥 " + text, done: false });
-            inp.value = "";
-            saveState();
-            renderDailyNonNegotiables();
-        }
-
-        function deleteDailyHabit(idx) {
-            state.dailyHabits.splice(idx, 1);
-            saveState();
-            renderDailyNonNegotiables();
-        }
-
-        function startNewDayReset() {
-            const allDone = state.dailyHabits.every(h => h.done);
-            if (allDone) {
-                state.streak += 1;
-                showSystemToast("NEW DAY AWAKENED!", `Streak Increased to ${state.streak} Days!`);
-            } else {
-                showSystemToast("NEW DAY RESET", "Daily Non-Negotiables Reset for Today.");
-            }
-            state.waterLiters = 0;
-            state.dailyHabits.forEach(h => h.done = false);
-            playSystemSound('levelup');
-            saveState();
-            renderDailyNonNegotiables();
-            updateAllProgressUI();
-        }
-
-        // 8. LOCK-IN DUNGEON TIMER
-        let timerTotalSeconds = 25 * 60;
-        let timerRemainingSeconds = 25 * 60;
-        let timerInterval = null;
-        let isTimerRunning = false;
-
-        function formatSeconds(sec) {
-            const hrs = Math.floor(sec / 3600);
-            const mins = Math.floor((sec % 3600) / 60);
-            const s = sec % 60;
-            return [hrs, mins, s].map(v => String(v).padStart(2, '0')).join(':');
-        }
-
-        function setTimerMinutes(mins) {
-            if (isTimerRunning) startPauseTimer();
-            timerTotalSeconds = mins * 60;
-            timerRemainingSeconds = timerTotalSeconds;
-            updateTimerUI();
-        }
-
-        function setCustomTimer() {
-            const val = parseInt(document.getElementById('customTimerInput').value, 10);
-            if (!isNaN(val) && val > 0) {
-                setTimerMinutes(val);
-            }
-        }
-
-        function updateTimerUI() {
-            document.getElementById('timerDisplay').textContent = formatSeconds(timerRemainingSeconds);
-            const pct = timerTotalSeconds === 0 ? 100 : (timerRemainingSeconds / timerTotalSeconds) * 100;
-            document.getElementById('timerProgressBar').style.width = `${pct}%`;
-
-            const mins = Math.round(timerTotalSeconds / 60);
-            const goldReward = Math.max(10, Math.round(mins * 1.5));
-            const xpReward = Math.max(15, mins * 2);
-            document.getElementById('timerRewardPreview').textContent = `Raid Clear Reward (${mins}m): +${xpReward} XP & +${goldReward} Gold`;
-        }
-
-        function startPauseTimer() {
-            const btn = document.getElementById('timerStartBtn');
-            const badge = document.getElementById('timerStatusBadge');
-
-            if (isTimerRunning) {
-                clearInterval(timerInterval);
-                isTimerRunning = false;
-                btn.innerHTML = `<i class="fa-solid fa-play mr-2"></i>RESUME DUNGEON RAID`;
-                badge.textContent = "PAUSED";
-                badge.className = "px-3 py-1 rounded text-xs font-orbitron bg-yellow-500/20 border border-yellow-400 text-yellow-300";
-            } else {
-                isTimerRunning = true;
-                playSystemSound('tick');
-                btn.innerHTML = `<i class="fa-solid fa-pause mr-2"></i>PAUSE RAID`;
-                badge.textContent = "LOCKED IN 🔥";
-                badge.className = "px-3 py-1 rounded text-xs font-orbitron bg-red-500/20 border border-red-400 text-red-300 animate-pulse";
-
-                timerInterval = setInterval(() => {
-                    if (timerRemainingSeconds > 0) {
-                        timerRemainingSeconds--;
-                        updateTimerUI();
-                    } else {
-                        clearInterval(timerInterval);
-                        isTimerRunning = false;
-                        const mins = Math.round(timerTotalSeconds / 60);
-                        const goldReward = Math.max(10, Math.round(mins * 1.5));
-                        const xpReward = Math.max(15, mins * 2);
-                        state.xp += xpReward;
-                        state.gold += goldReward;
-                        saveState();
-                        updateAllProgressUI();
-                        playSystemSound('levelup');
-                        showSystemToast("DUNGEON RAID CLEARED!", `+${xpReward} XP | +${goldReward} Gold Earned!`);
-                        resetTimer();
-                    }
-                }, 1000);
-            }
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            isTimerRunning = false;
-            timerRemainingSeconds = timerTotalSeconds;
-            document.getElementById('timerStartBtn').innerHTML = `<i class="fa-solid fa-play mr-2"></i>ENTER DUNGEON (START)`;
-            document.getElementById('timerStatusBadge').textContent = "STANDBY";
-            document.getElementById('timerStatusBadge').className = "px-3 py-1 rounded text-xs font-orbitron bg-cyan-500/20 border border-sysCyan text-sysCyan";
-            updateTimerUI();
-        }
-
-        // 9. MP3 UPLOAD & BGM PLAYER
-        let playlist = [];
-        let currentTrackIndex = 0;
-        const audioEl = document.getElementById('bgmAudioElement');
-
-        function handleMP3Upload(event) {
-            const files = Array.from(event.target.files);
-            if (!files.length) return;
-
-            files.forEach(file => {
-                const url = URL.createObjectURL(file);
-                playlist.push({ name: file.name.replace(/\.[^/.]+$/, ""), url });
-            });
-
-            renderPlaylist();
-            if (audioEl.paused && playlist.length > 0) {
-                loadAndPlayTrack(playlist.length - files.length);
-            }
-            showSystemToast("BGM UPLOADED", `${files.length} Audio Track(s) Added to System!`);
-        }
-
-        function renderPlaylist() {
-            const container = document.getElementById('mp3PlaylistContainer');
-            if (playlist.length === 0) return;
-
-            container.innerHTML = playlist.map((track, idx) => `
-                <div onclick="loadAndPlayTrack(${idx})" class="flex items-center justify-between p-2.5 rounded-lg border cursor-pointer transition-all ${idx === currentTrackIndex ? 'bg-purple-900/40 border-purple-400 text-white' : 'bg-slate-900/70 border-slate-800 hover:border-purple-500/40 text-slate-300'}">
-                    <div class="flex items-center space-x-2.5 truncate">
-                        <i class="fa-solid ${idx === currentTrackIndex && !audioEl.paused ? 'fa-volume-high text-purple-400 animate-pulse' : 'fa-music text-slate-500'} text-xs"></i>
-                        <span class="text-xs sm:text-sm font-inter truncate">${idx + 1}. ${track.name}</span>
-                    </div>
-                    <span class="text-[10px] font-orbitron text-purple-300 uppercase">${idx === currentTrackIndex ? 'Active' : 'Play'}</span>
+        <!-- =================================================
+             WINDOW 4: [INSTANCE RAID] (LOCK-IN TIMER & MP3 BGM)
+        ================================================== -->
+        <section id="win-instance" class="hidden flex-1 sys-window holo-corners p-4 sm:p-6 overflow-y-auto animate-holo flex-col gap-4">
+            <div class="border-b border-cyan-500/40 pb-3 flex justify-between items-center">
+                <div>
+                    <span class="text-[10px] font-orbitron tracking-[0.25em] text-sysCyan uppercase">Time Dilation Chamber // Window 04</span>
+                    <h2 class="text-2xl sm:text-3xl font-orbitron font-black text-white glow-cyan">INSTANCE DUNGEON & BGM</h2>
                 </div>
-            `).join('');
-        }
+                <span id="instanceStateTag" class="px-3 py-1 font-orbitron text-xs border border-sysCyan text-sysCyan bg-cyan-500/10">GATE STANDBY</span>
+            </div>
 
-        function loadAndPlayTrack(idx) {
-            if (idx < 0 || idx >= playlist.length) return;
-            currentTrackIndex = idx;
-            audioEl.src = playlist[idx].url;
-            document.getElementById('nowPlayingTitle').textContent = playlist[idx].name;
-            audioEl.play();
-            updatePlayPauseButton();
-            renderPlaylist();
-        }
-
-        function togglePlayAudio() {
-            if (playlist.length === 0) {
-                showSystemToast("NO MP3 LOADED", "Click 'UPLOAD MP3s' first to select music files!");
-                return;
-            }
-            if (audioEl.paused) {
-                audioEl.play();
-            } else {
-                audioEl.pause();
-            }
-            updatePlayPauseButton();
-            renderPlaylist();
-        }
-
-        function updatePlayPauseButton() {
-            const btn = document.getElementById('playPauseAudioBtn');
-            btn.innerHTML = audioEl.paused ? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause"></i>';
-        }
-
-        function prevTrack() {
-            if (playlist.length === 0) return;
-            const nextIdx = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-            loadAndPlayTrack(nextIdx);
-        }
-
-        function nextTrack() {
-            if (playlist.length === 0) return;
-            const nextIdx = (currentTrackIndex + 1) % playlist.length;
-            loadAndPlayTrack(nextIdx);
-        }
-
-        function toggleLoopAudio() {
-            audioEl.loop = !audioEl.loop;
-            const btn = document.getElementById('loopAudioBtn');
-            btn.innerHTML = `<i class="fa-solid fa-repeat mr-1"></i>Loop: ${audioEl.loop ? 'ON' : 'OFF'}`;
-            btn.className = audioEl.loop
-                ? "px-2.5 h-9 rounded-lg bg-purple-600/30 text-purple-200 border border-purple-400 text-xs font-orbitron"
-                : "px-2.5 h-9 rounded-lg bg-slate-900 text-slate-400 border border-purple-500/30 text-xs font-orbitron";
-        }
-
-        function changeVolume(val) {
-            audioEl.volume = parseFloat(val);
-        }
-
-        function seekAudio(val) {
-            if (audioEl.duration) {
-                audioEl.currentTime = (val / 100) * audioEl.duration;
-            }
-        }
-
-        audioEl.addEventListener('timeupdate', () => {
-            if (audioEl.duration) {
-                const pct = (audioEl.currentTime / audioEl.duration) * 100;
-                document.getElementById('audioSeekBar').value = pct;
-                const curM = String(Math.floor(audioEl.currentTime / 60)).padStart(2, '0');
-                const curS = String(Math.floor(audioEl.currentTime % 60)).padStart(2, '0');
-                const durM = String(Math.floor(audioEl.duration / 60)).padStart(2, '0');
-                const durS = String(Math.floor(audioEl.duration % 60)).padStart(2, '0');
-                document.getElementById('nowPlayingTime').textContent = `${curM}:${curS} / ${durM}:${durS}`;
-            }
-        });
-
-        audioEl.addEventListener('ended', () => {
-            if (!audioEl.loop && playlist.length > 1) {
-                nextTrack();
-            } else {
-                updatePlayPauseButton();
-            }
-        });
-
-        // 10. HUNTER STORE (BUY TEA, ANIME EPISODE, ETC.)
-        function renderStore() {
-            const grid = document.getElementById('storeItemsGrid');
-            grid.innerHTML = state.storeItems.map((item, idx) => `
-                <div class="system-box p-4 rounded-xl flex flex-col justify-between border border-cyan-500/30 hover:border-yellow-400/60 transition-all">
-                    <div class="flex items-start space-x-3">
-                        <div class="w-12 h-12 rounded-xl bg-slate-900 border border-yellow-400/40 flex items-center justify-center text-2xl shrink-0">
-                            ${item.icon || '🎁'}
-                        </div>
-                        <div>
-                            <h4 class="font-orbitron font-bold text-white text-base">${item.name}</h4>
-                            <p class="text-xs text-slate-400 font-inter mt-0.5">${item.desc || 'Custom Hunter Reward'}</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-3 border-t border-cyan-500/20 flex items-center justify-between">
-                        <span class="font-orbitron font-bold text-sysGold text-lg"><i class="fa-solid fa-coins mr-1 text-sm"></i>${item.cost} G</span>
-                        <button onclick="buyStoreItem(${idx})" class="px-4 py-1.5 rounded-lg bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-orbitron font-bold text-xs uppercase transition-all shadow-md shadow-yellow-500/20">
-                            BUY REWARD
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-
-            // Render Inventory
-            const invList = document.getElementById('inventoryList');
-            document.getElementById('inventoryCountBadge').textContent = `${state.inventory.length} Items`;
-
-            if (state.inventory.length === 0) {
-                invList.innerHTML = `
-                    <div class="text-xs text-slate-500 italic py-8 text-center border border-dashed border-cyan-500/20 rounded-lg">
-                        Your inventory is empty. Buy a Tea or Anime Episode using your hard-earned Gold!
-                    </div>
-                `;
-            } else {
-                invList.innerHTML = state.inventory.map((inv, idx) => `
-                    <div class="flex items-center justify-between p-3 rounded-lg bg-slate-900/90 border border-cyan-500/30">
-                        <div class="flex items-center space-x-2.5">
-                            <span class="text-xl">${inv.icon || '🎁'}</span>
-                            <div>
-                                <div class="text-sm font-bold text-white font-inter">${inv.name}</div>
-                                <div class="text-[10px] text-cyan-400 font-orbitron">Purchased: ${inv.time}</div>
-                            </div>
-                        </div>
-                        <button onclick="consumeInventoryItem(${idx})" class="px-3 py-1 rounded bg-emerald-500/20 border border-emerald-400 text-emerald-300 hover:bg-emerald-400 hover:text-slate-950 font-orbitron font-bold text-xs transition-all">
-                            CONSUME
-                        </button>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function buyStoreItem(idx) {
-            const item = state.storeItems[idx];
-            if (state.gold < item.cost) {
-                showSystemToast("INSUFFICIENT GOLD!", `You need ${item.cost} Gold. Clear more subtopics or Lock-In timers!`);
-                return;
-            }
-            state.gold -= item.cost;
-            const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            state.inventory.unshift({ name: item.name, icon: item.icon, time: nowStr });
-            playSystemSound('levelup');
-            showSystemToast("REWARD PURCHASED!", `${item.icon} ${item.name} added to Inventory!`);
-            saveState();
-            renderStore();
-            updateAllProgressUI();
-        }
-
-        function consumeInventoryItem(idx) {
-            const item = state.inventory[idx];
-            state.inventory.splice(idx, 1);
-            playSystemSound('tick');
-            showSystemToast("REWARD ACTIVATED!", `Enjoy your ${item.name}, Hunter!`);
-            saveState();
-            renderStore();
-        }
-
-        function addCustomStoreItem() {
-            const nameInp = document.getElementById('customRewardName');
-            const costInp = document.getElementById('customRewardCost');
-            const name = nameInp.value.trim();
-            const cost = parseInt(costInp.value, 10);
-            if (!name || isNaN(cost) || cost <= 0) return;
-
-            state.storeItems.push({
-                id: "st_" + Date.now(),
-                name,
-                cost,
-                icon: "⚡",
-                desc: "Custom Hunter Reward"
-            });
-            nameInp.value = "";
-            costInp.value = "";
-            saveState();
-            renderStore();
-        }
-
-        // 11. TAB SWITCHING
-        function switchMainTab(tabName) {
-            const tabs = ['pcm', 'side', 'daily', 'timer', 'store'];
-            tabs.forEach(t => {
-                const section = document.getElementById(`tabContent-${t}`);
-                const btn = document.getElementById(`tabBtn-${t}`);
-                if (t === tabName) {
-                    section.classList.remove('hidden');
-                    btn.className = "flex-1 min-w-[140px] py-2.5 px-4 rounded-lg font-orbitron text-xs sm:text-sm font-bold tracking-wider uppercase transition-all bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/30";
-                } else {
-                    section.classList.add('hidden');
-                    btn.className = "flex-1 min-w-[140px] py-2.5 px-4 rounded-lg font-orbitron text-xs sm:text-sm font-bold tracking-wider uppercase transition-all text-cyan-300 hover:bg-cyan-500/10";
-                }
-            });
-        }
-
-        // INITIALIZE ON LOAD
-        window.onload = function () {
-            loadState();
-            switchPCMSubject(state.activePCM || 'physics');
-            renderSideSubjects();
-            renderDailyNonNegotiables();
-            renderStore();
-            updateTimerUI();
-            updateAllProgressUI();
-        };
-    </script>
-</body>
-</html>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5
